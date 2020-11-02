@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/realworld/static/css/main.72ff5976.chunk.css",
+    "main.js": "/realworld/static/js/main.c203e647.chunk.js",
+    "main.js.map": "/realworld/static/js/main.c203e647.chunk.js.map",
+    "runtime-main.js": "/realworld/static/js/runtime-main.74d00d65.js",
+    "runtime-main.js.map": "/realworld/static/js/runtime-main.74d00d65.js.map",
+    "static/css/2.00a338ba.chunk.css": "/realworld/static/css/2.00a338ba.chunk.css",
+    "static/js/2.e17029f8.chunk.js": "/realworld/static/js/2.e17029f8.chunk.js",
+    "static/js/2.e17029f8.chunk.js.map": "/realworld/static/js/2.e17029f8.chunk.js.map",
+    "index.html": "/realworld/index.html",
+    "precache-manifest.026092ecbfd0cf5ca283ae823326499e.js": "/realworld/precache-manifest.026092ecbfd0cf5ca283ae823326499e.js",
+    "service-worker.js": "/realworld/service-worker.js",
+    "static/css/2.00a338ba.chunk.css.map": "/realworld/static/css/2.00a338ba.chunk.css.map",
+    "static/css/main.72ff5976.chunk.css.map": "/realworld/static/css/main.72ff5976.chunk.css.map",
+    "static/js/2.e17029f8.chunk.js.LICENSE.txt": "/realworld/static/js/2.e17029f8.chunk.js.LICENSE.txt",
+    "static/media/attention.png": "/realworld/static/media/attention.cb284d33.png",
+    "static/media/SignUp.css": "/realworld/static/media/check.b982534d.svg",
+    "static/media/ArticlePreview.css": "/realworld/static/media/heart.d17fcd0b.svg",
+    "static/media/user.svg": "/realworld/static/media/user.1197b293.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.74d00d65.js",
+    "static/css/2.00a338ba.chunk.css",
+    "static/js/2.e17029f8.chunk.js",
+    "static/css/main.72ff5976.chunk.css",
+    "static/js/main.c203e647.chunk.js"
+  ]
+}
