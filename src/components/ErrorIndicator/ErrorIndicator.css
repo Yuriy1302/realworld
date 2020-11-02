@@ -1,0 +1,76 @@
+.card {
+  display: flex;
+  flex-direction: column;
+/*   border: 3px solid olivedrab; */
+}
+
+.classErrorMessage {
+  /* border: 1px solid tomato; */
+  width: 420px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2); */
+}
+
+.classErrorMessage h2 {
+  color: #4e4e4e;
+  font-family: Roboto, sans-serif;
+}
+
+p {
+  color: #4e4e4e;
+  font-size: 22px;
+}
+
+.btn-err {
+  background: #fcc735;
+  padding: 10px 20px;
+  border: 1px solid #fcc735;
+  text-align: center;
+  color: #333333;
+  border-radius: 4px;
+}
+
+.btn-err:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  color: #333333;
+}
+
+.card-screen {
+  width: 100%;
+  height: 100%;
+  padding: 25px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background-color: white;
+  z-index: 100;
+}
+
+.myShadow1 {
+  /* border: 1px solid red; */
+  z-index: 1;
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  left: 8px;
+  bottom: 5px;
+  box-shadow: -7px 12px 15px rgba(0, 0, 0, 0.35);
+  transform: rotate(-3deg);
+}
+
+.myShadow2 {
+  /* border: 1px solid red; */
+  z-index: 1;
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  right: 8px;
+  bottom: 5px;
+  box-shadow: 7px 12px 15px rgba(0, 0, 0, 0.35);
+  transform: rotate(3deg);
+}

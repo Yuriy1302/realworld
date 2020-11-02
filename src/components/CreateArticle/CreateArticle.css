@@ -1,0 +1,133 @@
+.create-article {
+  width: 938px;
+  height: 701px;
+  margin: 34px auto;
+  padding: 32px;
+  background-color: #ffffff;
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  box-shadow: 0px 22px 106px rgba(0, 0, 0, 0.07),
+    0px 9px 44px rgba(0, 0, 0, 0.05),
+    0px 5px 24px rgba(0, 0, 0, 0.04),
+    0px 3px 13px rgba(0, 0, 0, 0.035),
+    0px 2px 7px rgba(0, 0, 0, 0.028),
+    0px 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.create-article h2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #262626;
+}
+
+.form-create-article {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-top: 12px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #262626;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 8px 12px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+  color: #292929;
+}
+
+.textarea {
+  width: 100%;
+  height: 168px;
+  resize : none;
+}
+
+.w300 {
+  width: 300px;
+}
+
+.input::placeholder {
+  color: #BFBFBF;
+}
+
+.btn-del {
+  width: 109px;
+  height: 40px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+  color: #f5222d;
+  background-color: transparent;
+  border: 1px solid #f5222d;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-del:hover {
+  background-color: #fff6f6;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.btn-add {
+  width: 136px;
+  height: 40px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1890FF;
+  background-color: transparent;
+  border: 1px solid #1890FF;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  background-color: #eef7ff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background: #1890FF;
+  border: none;
+  border-radius: 4px;
+  height: 40px;
+  margin-top: 21px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
