@@ -1,6 +1,7 @@
 import React/* , { useState } */ from 'react';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
+import { notification } from 'antd';
 
 import Spiner from '../Spiner';
 
@@ -51,7 +52,7 @@ const ProfileForm = (props) => {
     updateNewData(token, newData);
   }
 
-
+  
 
 
   return (
@@ -74,9 +75,7 @@ const ProfileForm = (props) => {
                name="email"
                className="input"
                placeholder="Email address"
-               
                ref={register({ required: true,
-                // eslint-disable-next-line
                                pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                             })
                     }

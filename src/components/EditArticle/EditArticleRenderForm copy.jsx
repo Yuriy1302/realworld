@@ -1,35 +1,56 @@
-import React, { useState/* , useEffect */ } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { /* useSelector, */ useDispatch } from 'react-redux';
-import { /* Link, */ withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 /* import classNames from 'classnames'; */
 
-import { createArticle, getArticlesList } from '../../actions';
+import Spiner from '../Spiner';
 
+import { getArticle, createArticle, getArticlesList } from '../../actions';
 
-import './CreateArticle.css';
+import './EditArticle.css';
 
-const CreateArticle = (props) => {
+const EditArticleRenderForm = (props) => {
+  /* console.log('props-slug: ', props.slug); */
   const token = localStorage.getItem('token');
-  const [ title, setTitle ] = useState('');
-  const [ description, setDescription ] = useState('');
-  const [ body, setBody ] = useState('');
+  /* const { article } = useSelector(state => state); */
+  const { article } = props;
+  console.log('article in edit render: ', article);
+
+  const [ title, setTitle ] = useState(article.title);
+  const [ description, setDescription ] = useState(article.description);
+  const [ body, setBody ] = useState(article.body);
   // Добавлено - start
   const [ indexes, setIndexes ] = useState([0]); 
   const [ counter, setCounter ] = useState(1);
   const [ tags, setTags ] = useState(['tagsList[0]']);
   /* const [ tagsList, setTagsList ] = useState([]); */
   // Добавлено - end
+  
+
+  /* const propertyValues = article ? {
+      title: article.title,
+      description: article.description,
+      body: article.body
+    } : {}; */
+  /* console.log('propertyValues in edit render: ', propertyValues); */
+  
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
+  
+  
+  
+  
+
+  
 
   const onSubmitArticle = async (data) => {
     /* console.log('New article: ', article); */
-    await dispatch(createArticle(data, token));
-    await dispatch(getArticlesList());
-    await props.history.push('/'); /* Пока переход на общий список, сделать попробовать запрос новый на получение списка */
-    console.log('Data: ', data);
+    /* await dispatch(updateArticle(data, token)); */
+    /* await dispatch(getArticlesList()); */
+    /* await props.history.push('/'); */ /* Пока переход на общий список, сделать попробовать запрос новый на получение списка */
+    console.log('Data in edit render: ', data);
   }
 
   const onChangeTitle = (event) => {
@@ -68,9 +89,9 @@ const CreateArticle = (props) => {
     setTags(prevTags => [...prevTags.filter(item => item !== tags[index])]);
   }
 
-  console.log('counter: ', counter);
+  /* console.log('counter: ', counter);
   console.log('indexes: ', indexes);
-  console.log('tags: ', tags);
+  console.log('tags: ', tags); */
     
   const renderTagInput = (item) => {
     return (
@@ -101,9 +122,7 @@ const CreateArticle = (props) => {
   };
 
   return (
-    <div className="create-article">
-      <h2>Create new article</h2>
-      <form className="form-create-article" onSubmit={handleSubmit(onSubmitArticle)}>
+    /* Object.keys(propertyValues).length */ article ? <form className="form-create-article" onSubmit={handleSubmit(onSubmitArticle)}>
         <label htmlFor="title" className="label">Title</label>
         <input type="text"
                name="title"
@@ -142,11 +161,7 @@ const CreateArticle = (props) => {
         { errors.body && <span className="text-danger">The field must be filled</span> }
 
         
-        {/* <label htmlFor="text" className="label">Tags<br />
-          <input type="text" name="tag" id="tag" className="input w300" placeholder="Tag" />
-          <button type="button" className="btn-del">Delete</button>
-          <button type="button" className="btn-add">Add tag</button>
-        </label> */}
+        
         {/* Добавлено */}
         <label htmlFor="" className="label">Tags</label>
         {
@@ -161,9 +176,8 @@ const CreateArticle = (props) => {
         
         <button type="submit" className="btn-primary w300">Send</button>
         
-      </form>
-    </div>
+      </form> : <Spiner />
   );
 };
 
-export default withRouter(CreateArticle);
+export default withRouter(EditArticleRenderForm);

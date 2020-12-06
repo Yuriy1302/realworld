@@ -1,23 +1,44 @@
-import React from 'react';
+import React/* , { useEffect } */ from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import Like from './Like';
+
+import { setFavoriteArticle } from '../../actions';
 
 import './ArticlePreview.css';
 import userImg from '../../images/user.svg';
+/* import heartImg from '../../images/heart.svg';
+import heartImgFill from '../../images/path4.svg'; */
 
 const ArticlePreview = (props) => {
-  
-  const { article } = props;
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const dispatch = useDispatch();
+
+  const { article, pageCurrent } = props;
   const {
     title,
     description,
     tagList,
     createdAt,
+    favorited,
     favoritesCount,
     slug,
     author } = article;
       
     const { username, image } = author;
+
+    /* console.log('favorited: ', article); */
+
+    
+
+    const onChangFavoriteArticle = () => {
+      if (isLoggedIn) {
+        const token = localStorage.getItem('token');
+        dispatch(setFavoriteArticle(slug, token, pageCurrent * 20 - 20));
+      }
+    }
 
   return (
     <div className="article-item">
@@ -27,7 +48,13 @@ const ArticlePreview = (props) => {
               <h2 className="article-item__title">
                 <Link to={`/articles/${slug}`}>{title}</Link>
               </h2>
-              <span className="article-item__likes">{favoritesCount}</span>
+
+              <Like favorited={favorited} favoritesCount={favoritesCount} onChangFavoriteArticle={onChangFavoriteArticle} />
+
+              {/* <div> */}
+                {/* <button onClick={onChangFavoriteArticle}><span className="article-item__likes">{favoritesCount}</span></button> */}
+                {/* <button onClick={onChangFavoriteArticle} className="btn-favorite">{favorited ? <img src={heartImgFill} /> : <img src={heartImg} />}<span>{favoritesCount}</span></button> */}
+              {/* </div> */}
             </div>
             <div className="article-item__tags">
             { tagList.length !== 0 ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>) : null }
@@ -38,7 +65,7 @@ const ArticlePreview = (props) => {
               <div className="article-item__author">{username}</div>
               <span className="article-item__date">{format(new Date(createdAt), 'MMMM d, y')}</span>
             </div>
-            <img src={image ? image : userImg} className="article-item__avatar" alt="User's avatar" />
+            { image ? <img src={image} className="article-item__avatar" alt="User's avatar" /> : <img src={userImg} className="article-item__avatar" alt="User's avatar" /> }
           </div>
       </div>
       <div className="article-item__annotation">

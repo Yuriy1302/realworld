@@ -1,42 +1,55 @@
-import React from 'react';
+import React, { useEffect/* , useCallback */ } from 'react';
 import { Pagination } from 'antd';
 import { connect } from 'react-redux';
 
 import ArticlePreview from '../ArticlePreview';
+import Spiner from '../Spiner';
 
 import { getArticlesList, togglePage } from '../../actions';
 
 import './ArticlesList.css';
 
-
-const mapStateToProps = (state) => {
-  const { togglePage, articles, pageCurrent, articlesCount } = state;
-  return {
-    togglePage,
-    articles,
-    pageCurrent,
-    articlesCount
-  };
-};
-
 const ArticlesList = (props) => {
-  
-  const { getArticlesList, togglePage, articles, pageCurrent, articlesCount } = props;
-  
+  const token = localStorage.getItem('token');
+  const { getArticlesList, togglePage,
+          loader, articles, pageCurrent, articlesCount } = props;
+  /* console.log('Articles in AList: ', articles); */
   /* const callback = useCallback(() => getArticlesList, [getArticlesList]);
   useEffect(() => callback(), [callback]); */
 
-  if(articles.length === 0) getArticlesList();
+  /* if (articles.length === 0) getArticlesList(); */
+  /* const callback = useCallback(() => getArticlesList, []); */
+  
+
+  /* Почему так получается цикл */
+  useEffect(() => {
+      getArticlesList(0, token); 
+  }, [getArticlesList]);
+
+  /* И так */
+  /* useEffect(async () => {
+    await getArticlesList(); 
+  }, []); */
+
+  /* А так работает */
+
+  /* const loadArticles = () => {
+    getArticlesList();
+  }
+
+  useEffect(() => {
+    loadArticles(); 
+  }, []); */
   
   const handlePage = (page) => {
     togglePage(page);
-    getArticlesList(page * 20 - 20);
+    token ? getArticlesList(page * 20 - 20, token) : getArticlesList(page * 20 - 20, null);
   };
   
   return (
     <div>
       <div>
-        { articles.map((article) => <ArticlePreview key={article.slug} article={article} />) }
+        { loader ? <Spiner /> : articles.map((article) => <ArticlePreview key={article.slug} article={article} pageCurrent={pageCurrent} />) }
       </div>
       <div className="pagination">
         <Pagination
@@ -50,6 +63,17 @@ const ArticlesList = (props) => {
       </div>
     </div>
   );
+};
+
+const mapStateToProps = (state) => {
+  const { loader, togglePage, articles, pageCurrent, articlesCount } = state;
+  return {
+    loader,
+    togglePage,
+    articles,
+    pageCurrent,
+    articlesCount
+  };
 };
 
 export default connect(mapStateToProps, {getArticlesList, togglePage})(ArticlesList);

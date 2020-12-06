@@ -15,7 +15,7 @@ const SignIn = (props) => {
   const { register, handleSubmit, errors } = useForm();
   
 
-  console.log('errorsResponse in sign-in: ', errorsResponse);
+  /* console.log('errorsResponse in sign-in: ', errorsResponse); */
 
   if (errorsResponse) {
     return (

@@ -66,7 +66,7 @@
 
 .article-item__likes::before {
   content: "";
-  background-image: url('../../images/heart.svg');
+  background-image: url('../../images/heart-1.svg');
   background-repeat: no-repeat;
   display: inline-block;
   position: relative;
@@ -81,7 +81,7 @@
 
 .article-item__likes:hover::before {
   /* content: ""; */
-  background-image: url('../../images/heart-fill.svg');
+  background-image: url('../../images/heart-2.svg');
   /* display: inline-block;
   position: relative;
   top: 3px;
@@ -146,6 +146,8 @@
 
 .article-item__avatar {
   /* border: 1px solid palevioletred; */
+  width: 46px;
+  height: 46px;
   margin-left: 12px;
   border-radius: 50%;
 }
@@ -163,7 +165,25 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-.article-item__avatar {
-  width: 46px;
-  height: 46px;
+.btn-favorite {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  
+}
+
+.btn-favorite img {
+  margin-right: 5px;
+  width: 17px;
+  height: 17px;
+}
+
+.btn-favorite span {
+  vertical-align: center;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.75);
 }

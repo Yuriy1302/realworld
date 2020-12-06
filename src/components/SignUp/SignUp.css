@@ -58,7 +58,7 @@
   color: #262626;
 }
 
-.input {
+.input-form {
   width: 100%;
   height: 40px;
   background-color: #ffffff;
@@ -74,7 +74,7 @@
   color: #292929;
 }
 
-.input::placeholder {
+.input-form::placeholder {
   color: #BFBFBF;
 }
 
@@ -184,5 +184,17 @@ input[type="checkbox"]:checked + .rules::before {
 .footnote a {
   text-decoration: none;
   color: #1890FF;
+}
+
+.input-error {
+  border-color: #F5222D;
+}
+
+.input-error:focus {
+  border-color: #F5222D;
+}
+
+.text-danger {
+  color: #F5222D;
 }
 

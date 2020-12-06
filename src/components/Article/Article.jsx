@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import MarkdownView from 'react-showdown';
+import { Popconfirm, message } from 'antd';
 
 import Spiner from '../Spiner';
 
-import { getArticle } from '../../actions';
+import { getArticle, deleteArticle } from '../../actions';
 
 import './Article.css';
 
 const Article = (props) => {
   
-  const { slug, article, loader, getArticle } = props;
+  const { slug, article, loader, getArticle, isLoggedIn, username } = props;
   
   useEffect(() => {
     async function fetchData() {
@@ -25,20 +27,25 @@ const Article = (props) => {
   }
 
   return (
-    Object.keys(article).length ? articleRender(article) : null
+    article ? articleRender(article, isLoggedIn, username, props) : null
   );
 };
 
+
+
 const mapStateToProps = (state) => {
-  const { article, loader } = state;
+  const { article, loader, isLoggedIn, user } = state;
   return {
     article,
-    loader
+    loader,
+    isLoggedIn,
+    username: user.username
   };
 }
 
-const articleRender = (article) => {
+const articleRender = (article, isLoggedIn, username, props) => {
   const {
+    slug,
     title,
     description,
     body,
@@ -47,6 +54,28 @@ const articleRender = (article) => {
     tagList,
     author
   } = article;
+  console.log('username: ', username);
+  console.log('author: ', author.username);
+
+  const { deleteArticle } = props;
+  const token = localStorage.getItem('token');
+
+  /* const onDeleteArticle = () => {
+    deleteArticle(slug, token, username);
+    props.history.push(`/my-articles`)
+  } */
+
+  const confirm = () => {
+    message.success('Click on Yes');
+    deleteArticle(slug, token, username);
+    props.history.push(`/my-articles`);
+  }
+
+  const cancel = () => {
+    message.error('Click on No');
+  }
+
+
 
   return (
     <div className="article">
@@ -57,7 +86,7 @@ const articleRender = (article) => {
             <span className="article-item__likes">{favoritesCount}</span>
           </div>
           <div className="article-item__tags">
-            { tagList.length !== 0 ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>) : null }
+            { tagList.length !== 0 ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>) : null }            
           </div>
         </div>
         <div className="article-item__block flex-row">
@@ -68,7 +97,32 @@ const articleRender = (article) => {
           <img src={author.image} className="article-item__avatar" alt="User's avatar" />
         </div>
       </div>
-      <div className="article-item__annotation">{description}</div>
+
+      {/* !!!!!!!!!!!!!! Кнопки удаления и редактирования */}
+
+      <div className="annotation-block">
+        <div className="article-item__annotation" >{description}</div>
+        <div>
+          {
+            isLoggedIn && username === author.username
+              ? <div>
+                  <Popconfirm
+                    placement="right"
+                    title="Are you sure to delete this article?"
+                    onConfirm={confirm}
+                    onCancel={cancel}
+                    okText="Yes"
+                    cancelText="No"
+                    overlayClassName="popup"
+                  >
+                    <button type="button" className="btn-del-myself">Delete</button>
+                  </Popconfirm>
+                  <button type="button" onClick={() => { props.history.push(`/articles/${slug}/edit`)}} className="btn-edit-myself">Edit</button>
+                </div>
+              : null
+          }
+        </div>
+      </div>
       <div className="article-body">
         <MarkdownView markdown={body} options={{ tables: true, emoji: true }} />
       </div>
@@ -76,4 +130,4 @@ const articleRender = (article) => {
   );
 };
 
-export default connect(mapStateToProps, { getArticle })(Article);
+export default connect(mapStateToProps, { getArticle, deleteArticle })(withRouter(Article));

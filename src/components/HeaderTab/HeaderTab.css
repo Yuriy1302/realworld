@@ -54,11 +54,11 @@
   
 }
 
-.header__signin:hover {
+/* .header__signin:hover {
   border: 1px solid #ececec;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
   color: rgba(0, 0, 0, 0.85);
-}
+} */
 
 
 .header__signup {
@@ -68,10 +68,10 @@
   color: #52C41A;
 }
 
-.header__signup:hover {
+/* .header__signup:hover {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
   color: #52C41A;
-}
+} */
 
 .btn-create-article {
   width: 112px;
@@ -116,6 +116,20 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
+}
+
+.btn-my-articles {
+  width: 112px;
+  height: 31px;
+  border: 1px solid #1890FF;
+  border-radius: 5px;
+  background-color: #ffffff;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #1890FF;
 }
 
 
