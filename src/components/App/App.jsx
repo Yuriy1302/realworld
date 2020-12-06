@@ -28,16 +28,6 @@ const App = (props) => {
       return <ErrorIndicator />
     }
 
-  /* if (token) {
-      updateUser(token);
-  } */
-/*   if (loader) {
-    return <Spiner />
-  } */
-  
-
-
-  
   return (
     <div>
       <Router>
@@ -48,7 +38,6 @@ const App = (props) => {
           <Route path="/sign-in" component={SignIn} />
           <Route path="/sign-up" component={SignUp} />
           <Route path="/profile" component={EditProfile} />
-          {/* <Route path="/new-article" component={CreateArticle} /> */}
           <PrivateRoute exact path="/new-article" component={CreateArticle} />
           <Route path="/articles/:slug" exact
             render={({ match }) => {
