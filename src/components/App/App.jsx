@@ -2,26 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import HeaderTab from '../HeaderTab';
-/* import Spiner from '../Spiner'; */
-import ErrorIndicator from '../ErrorIndicator';
-import ArticlesList from '../ArticlesList';
 import Article from '../Article';
+import ArticlesList from '../ArticlesList';
+import CreateArticle from '../CreateArticle';
+import EditArticle from '../EditArticle';
+import EditProfile from '../EditProfile';
+import ErrorIndicator from '../ErrorIndicator';
+import HeaderTab from '../HeaderTab';
+import MyArticles from '../MyArticles';
+import PrivateRoute from '../PrivateRoute';
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
-import EditProfile from '../EditProfile';
-import CreateArticle from '../CreateArticle';
-import MyArticles from '../MyArticles';
-import EditArticle from '../EditArticle';
-import PrivateRoute from '../PrivateRoute';
-
-/* import EditProfile from '../EditProfile'; */
-/* import { updateUser } from '../../actions'; */
 
 const App = (props) => {
-
-  const { /* loader, */ error/* , updateUser */ } = props;
-  
+  const { error } = props;
   const token = localStorage.getItem('token');
   
   if (error) {
@@ -38,19 +32,21 @@ const App = (props) => {
           <Route path="/sign-in" component={SignIn} />
           <Route path="/sign-up" component={SignUp} />
           <Route path="/profile" component={EditProfile} />
-          <PrivateRoute exact path="/new-article" component={CreateArticle} />
-          <Route path="/articles/:slug" exact
+          <Route
+            path="/articles/:slug"
+            exact
             render={({ match }) => {
               const { slug } = match.params;
               return <Article slug={slug}/>
             }} />
-          <Route path="/articles/:slug/edit"
-                 render={({ match }) => {
-                   /* console.log('match: ', match); */
-                   const { slug } = match.params;
-                   return <EditArticle slug={slug} />
-                 }}
+          <Route
+            path="/articles/:slug/edit"
+            render={({ match }) => {
+              const { slug } = match.params;
+              return <EditArticle slug={slug} />
+            }}
           />
+          <PrivateRoute path="/new-article" exact component={CreateArticle} />
         </main>
       </Router>
     </div>

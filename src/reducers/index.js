@@ -157,14 +157,6 @@ const reducer = (state = initialState, action) => {
         error: false,
         currentUser: action.payload
       }
-
-    case 'GET_CURRENT_USER_SUCCESS':
-      return {
-        ...state,
-        loader: false,
-        error: false,
-        currentUser: action.payload
-      }
     
     /* case 'ADD_FAVORITE_ARTICLE_SUCCESS':
       return {

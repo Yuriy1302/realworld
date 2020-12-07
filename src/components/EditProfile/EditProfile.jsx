@@ -1,6 +1,6 @@
-import React/* , { useState } */ from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react';
 import { connect } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import Spiner from '../Spiner';
 
@@ -11,17 +11,16 @@ import './EditProfile.css';
 const EditProfile = (props) => {
   const token = localStorage.getItem('token');
   const { user, updateNewData } = props;
-  
-  
-  return user ? <ProfileForm user={user} token={token} updateNewData={updateNewData} /> : <Spiner />; 
-  
+    
+  return user
+          ? <ProfileForm user={user} token={token} updateNewData={updateNewData} />
+          : <Spiner />;
 };
 
 const mapStateToProps = (state) => {
   const { user, currentUser, isLoggedIn } = state;
   return { user, currentUser, isLoggedIn };
 }
-
 
 const ProfileForm = (props) => {
   const { username, email } = props.user;
@@ -33,10 +32,7 @@ const ProfileForm = (props) => {
     }
   });
 
-  /* const [ passwordData, setPasswordData ] = useState('');
-  const [ urlData, setUrlData ] = useState(''); */
-
-  /* Отправка новых данных здесь */
+  // Отправка новых данных здесь
   const onSubmitProfile = (data) => {
     let newData = {};
     for (let item in data) {
@@ -44,15 +40,8 @@ const ProfileForm = (props) => {
         newData[item] = data[item];
       }
     }
-    /* console.log('OnSubmitProfile: ', newData);
-    console.log('OnSubmitProfile: ', JSON.stringify({
-                                                      user: newData
-                                                    })); */
     updateNewData(token, newData);
   }
-
-
-
 
   return (
     <div className="edit-profile">
@@ -89,24 +78,17 @@ const ProfileForm = (props) => {
                name="password"
                className="input"
                placeholder="New password"
-               /* value={passwordData} */
-               /* onChange={(e) => { setPasswordData(e.target.value); console.log(e.target.value); } } */
-               /* ref={passwordData.length ? register({ minLength: 8, maxLength: 40 }) : unregister} */
                ref={register({ minLength: 8, maxLength: 40 })}
         />
         { errors.password?.type === 'minLength' && <span className="text-danger">Your password needs to be at least 8 characters</span>}
         { errors.password?.type === 'maxLength' && <span className="text-danger">Your password must be no more than 40 characters long</span>}
-        
 
         <label htmlFor="password" className="label">Avatar image (url)</label>
         <input type="text"
                name="image"
                className="input"
                placeholder="Avatar image"
-               /* value={urlData} */
-               /* onChange={(e) => setUrlData(e.target.value) } */
-               /* ref={urlData.length ? register({ pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ })
-                                   : unregister} */
+               // eslint-disable-next-line
                ref={register({ pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/ })}
         />
         { errors.image?.type === 'pattern' && <span className="text-danger">Needs to enter a valid URL</span> }

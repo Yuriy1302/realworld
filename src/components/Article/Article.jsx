@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
 import { format } from 'date-fns';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import MarkdownView from 'react-showdown';
 import { Popconfirm, message } from 'antd';
+import { withRouter } from 'react-router-dom';
 
 import Spiner from '../Spiner';
 
@@ -12,7 +12,6 @@ import { getArticle, deleteArticle } from '../../actions';
 import './Article.css';
 
 const Article = (props) => {
-  
   const { slug, article, loader, getArticle, isLoggedIn, username } = props;
   
   useEffect(() => {
@@ -30,8 +29,6 @@ const Article = (props) => {
     article ? articleRender(article, isLoggedIn, username, props) : null
   );
 };
-
-
 
 const mapStateToProps = (state) => {
   const { article, loader, isLoggedIn, user } = state;
@@ -54,16 +51,8 @@ const articleRender = (article, isLoggedIn, username, props) => {
     tagList,
     author
   } = article;
-  console.log('username: ', username);
-  console.log('author: ', author.username);
-
   const { deleteArticle } = props;
   const token = localStorage.getItem('token');
-
-  /* const onDeleteArticle = () => {
-    deleteArticle(slug, token, username);
-    props.history.push(`/my-articles`)
-  } */
 
   const confirm = () => {
     message.success('Click on Yes');
@@ -75,8 +64,6 @@ const articleRender = (article, isLoggedIn, username, props) => {
     message.error('Click on No');
   }
 
-
-
   return (
     <div className="article">
       <div className="article-item__header">
@@ -86,7 +73,10 @@ const articleRender = (article, isLoggedIn, username, props) => {
             <span className="article-item__likes">{favoritesCount}</span>
           </div>
           <div className="article-item__tags">
-            { tagList.length !== 0 ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>) : null }            
+            { tagList.length !== 0
+                ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>)
+                : null
+            }            
           </div>
         </div>
         <div className="article-item__block flex-row">
@@ -97,8 +87,6 @@ const articleRender = (article, isLoggedIn, username, props) => {
           <img src={author.image} className="article-item__avatar" alt="User's avatar" />
         </div>
       </div>
-
-      {/* !!!!!!!!!!!!!! Кнопки удаления и редактирования */}
 
       <div className="annotation-block">
         <div className="article-item__annotation" >{description}</div>

@@ -11,12 +11,9 @@ import './SignUp.css';
 
 const SignUp = (props) => {
   const { isLoggedIn, serverErrors } = useSelector((state) => state);
-  /* let emailErrors, usernameErrors = null;
-  if (serverErrors.username) {
-    user
-  } */
 
   const dispatch = useDispatch();
+  
   const { register, handleSubmit, errors } = useForm();
   const [ password, setPassword ] = useState('');
 
@@ -27,7 +24,6 @@ const SignUp = (props) => {
       duration: 4
     })
     props.history.push('/');
-    /* return; */
   }
 
   const onChangePassword = (event) => {
@@ -35,15 +31,10 @@ const SignUp = (props) => {
   }
 
   const onSignUp = (data) => {
-    /* console.log('Data sign-up: ', data); */
-    
     dispatch(registration(data));
-    
-    /* props.history.push('/'); */
   }
 
   return (
-    
     <div className="create-new-accaunt">
       <form action="" className="form-create" onSubmit={handleSubmit(onSignUp)}>
         <h3>Create new account</h3>
@@ -66,6 +57,7 @@ const SignUp = (props) => {
                className={classNames({ "input-form": true, "input-error": errors.email })}
                placeholder="Email address"
                ref={register({ required: true,
+                               // eslint-disable-next-line
                                pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                              })
                     }
@@ -73,13 +65,10 @@ const SignUp = (props) => {
         { errors.email?.type === 'required' && <span className="text-danger">The field must be filled</span> }
         { errors.email?.type === 'pattern' && <span className="text-danger">Needs to enter a valid address</span> }
         { serverErrors && serverErrors.hasOwnProperty('email') && <span className="text-danger">{serverErrors.email[0][0].toUpperCase() + serverErrors.email[0].slice(1)}</span>}
-        
-        
-        
+
         <label htmlFor="password" className="label">Password</label>
         <input type="password"
                name="password"
-               /* value={password} */
                onChange={onChangePassword}
                className={classNames({ "input-form": true, "input-error": errors.password })}
                placeholder="Password"
@@ -88,9 +77,7 @@ const SignUp = (props) => {
         { errors.password?.type === 'required' && <span className="text-danger">The field must be filled</span>}
         { errors.password?.type === 'minLength' && <span className="text-danger">Your password needs to be at least 8 characters</span>}
         { errors.password?.type === 'maxLength' && <span className="text-danger">Your password must be no more than 40 characters long</span>}
-        
-        
-        
+
         <label htmlFor="confirmPassword" className="label">Repeat Password</label>
         <input type="password"
                name="confirmPassword"
@@ -101,10 +88,7 @@ const SignUp = (props) => {
                })}
         />
         { errors.confirmPassword && <span className="text-danger">Passwords must match</span> }
-        
-        
-        
-        
+
         <div className="hr"></div>
         
         <div className="rules-block">

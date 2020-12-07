@@ -1,22 +1,19 @@
+import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
 
-import { connect } from 'react-redux';
-
-import ArticlePreview from '../ArticlePreview';
 import Spiner from '../Spiner';
+import ArticlePreview from '../ArticlePreview';
 
 import { getMyselfArticles } from '../../actions';
 
 const MyArticles = (props) => {
-  
   const { getMyselfArticles, loader, articles } = props;
-
   const author = localStorage.getItem('localUser');
 
   useEffect(() => {
     getMyselfArticles(author);
+    // eslint-disable-next-line
   }, [getMyselfArticles]);
-
 
   return (
     <div>

@@ -1,9 +1,9 @@
-import React, { useEffect/* , useCallback */ } from 'react';
 import { Pagination } from 'antd';
 import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
 
-import ArticlePreview from '../ArticlePreview';
 import Spiner from '../Spiner';
+import ArticlePreview from '../ArticlePreview';
 
 import { getArticlesList, togglePage } from '../../actions';
 
@@ -13,34 +13,11 @@ const ArticlesList = (props) => {
   const token = localStorage.getItem('token');
   const { getArticlesList, togglePage,
           loader, articles, pageCurrent, articlesCount } = props;
-  /* console.log('Articles in AList: ', articles); */
-  /* const callback = useCallback(() => getArticlesList, [getArticlesList]);
-  useEffect(() => callback(), [callback]); */
-
-  /* if (articles.length === 0) getArticlesList(); */
-  /* const callback = useCallback(() => getArticlesList, []); */
-  
-
-  /* Почему так получается цикл */
   useEffect(() => {
-      getArticlesList(0, token); 
+      getArticlesList(0, token);
+      // eslint-disable-next-line
   }, [getArticlesList]);
 
-  /* И так */
-  /* useEffect(async () => {
-    await getArticlesList(); 
-  }, []); */
-
-  /* А так работает */
-
-  /* const loadArticles = () => {
-    getArticlesList();
-  }
-
-  useEffect(() => {
-    loadArticles(); 
-  }, []); */
-  
   const handlePage = (page) => {
     togglePage(page);
     token ? getArticlesList(page * 20 - 20, token) : getArticlesList(page * 20 - 20, null);
@@ -49,7 +26,13 @@ const ArticlesList = (props) => {
   return (
     <div>
       <div>
-        { loader ? <Spiner /> : articles.map((article) => <ArticlePreview key={article.slug} article={article} pageCurrent={pageCurrent} />) }
+        {
+          loader
+            ? <Spiner />
+            : articles.map((article) => (
+                <ArticlePreview key={article.slug}article={article} pageCurrent={pageCurrent} />
+              ))
+        }
       </div>
       <div className="pagination">
         <Pagination

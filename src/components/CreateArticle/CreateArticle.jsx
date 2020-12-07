@@ -1,12 +1,9 @@
-import React, { useState/* , useEffect */ } from 'react';
-
-import { /* useSelector, */ useDispatch } from 'react-redux';
-import { /* Link, */ withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-/* import classNames from 'classnames'; */
+import { withRouter } from 'react-router-dom';
 
 import { createArticle, getArticlesList } from '../../actions';
-
 
 import './CreateArticle.css';
 
@@ -15,43 +12,34 @@ const CreateArticle = (props) => {
   const [ title, setTitle ] = useState('');
   const [ description, setDescription ] = useState('');
   const [ body, setBody ] = useState('');
-  // Добавлено - start
+  
   const [ indexes, setIndexes ] = useState([0]); 
   const [ counter, setCounter ] = useState(1);
   const [ tags, setTags ] = useState(['tagsList[0]']);
-  /* const [ tagsList, setTagsList ] = useState([]); */
-  // Добавлено - end
+  
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
 
   const onSubmitArticle = async (data) => {
-    /* console.log('New article: ', article); */
     await dispatch(createArticle(data, token));
     await dispatch(getArticlesList());
-    await props.history.push('/'); /* Пока переход на общий список, сделать попробовать запрос новый на получение списка */
-    console.log('Data: ', data);
+    await props.history.push('/'); // Переход на общий список
   }
 
   const onChangeTitle = (event) => {
     const { value } = event.target;
-    console.log('Title: ', value);
     setTitle(value);
   }
 
   const onChangeDescription = (event) => {
     const { value } = event.target;
-    /* console.log('Description: ', value); */
     setDescription(value);
   }
 
   const onChangeBody = (event) => {
     const { value } = event.target;
-    /* console.log('Body: ', value); */
     setBody(value);
   }
-
-
-  /* Добавлено */
 
   const addField = () => {
     setIndexes(prevIndexes => [...prevIndexes, counter]);
@@ -67,10 +55,6 @@ const CreateArticle = (props) => {
     const index = tags.indexOf(item);
     setTags(prevTags => [...prevTags.filter(item => item !== tags[index])]);
   }
-
-  console.log('counter: ', counter);
-  console.log('indexes: ', indexes);
-  console.log('tags: ', tags);
     
   const renderTagInput = (item) => {
     return (
@@ -79,7 +63,6 @@ const CreateArticle = (props) => {
               className="input"
               style={{ width: '50%' }}
               name={item}
-              /* id={inputField} */
               placeholder="Tag"
               ref={register({ required: true })}
         />
@@ -141,26 +124,14 @@ const CreateArticle = (props) => {
         />
         { errors.body && <span className="text-danger">The field must be filled</span> }
 
-        
-        {/* <label htmlFor="text" className="label">Tags<br />
-          <input type="text" name="tag" id="tag" className="input w300" placeholder="Tag" />
-          <button type="button" className="btn-del">Delete</button>
-          <button type="button" className="btn-add">Add tag</button>
-        </label> */}
-        {/* Добавлено */}
         <label htmlFor="" className="label">Tags</label>
         {
           tags.map(item => {
-            /* const fieldName = `tagsList[${index}]`; */
-            return (
-              renderTagInput(item)
-            )
+            return renderTagInput(item)
           })
         }
-
         
-        <button type="submit" className="btn-primary w300">Send</button>
-        
+        <button type="submit" className="btn-primary w300">Send</button>        
       </form>
     </div>
   );
