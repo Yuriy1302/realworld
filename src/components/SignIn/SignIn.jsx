@@ -9,14 +9,10 @@ import { authentication, resetErrorsResponse } from '../../actions';
 import './SignIn.css';
 
 const SignIn = (props) => {
-
   const { isLoggedIn, errorsResponse} = useSelector((state) => state);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm();
   
-
-  /* console.log('errorsResponse in sign-in: ', errorsResponse); */
-
   if (errorsResponse) {
     return (
       <div className="sign-in-accaunt">
@@ -32,13 +28,9 @@ const SignIn = (props) => {
   }
 
   if (isLoggedIn) props.history.push('/');
-    
 
   const onLogIn = (userRegister) => {
-    
     dispatch(authentication(userRegister));
-    /* props.history.push('/'); */
-    /* if (isLoggedIn) props.history.push('/'); */
   }
 
   return (

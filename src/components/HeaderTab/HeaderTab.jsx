@@ -36,7 +36,6 @@ const HeaderTab = (props) => {
     dispatch(logoutAction());
     localStorage.removeItem('localUser');
     localStorage.removeItem('token');
-    /* localStorage.removeItem('isLoggedIn'); */ /* Это скорее всего не надо */
     props.history.push('/sign-in');
   }
 

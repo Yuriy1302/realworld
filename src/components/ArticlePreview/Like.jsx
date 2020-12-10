@@ -7,12 +7,19 @@ const Like = (props) => {
   const { favorited, favoritesCount, onChangFavoriteArticle } = props;
   return (
     <div>
-      <a onClick={onChangFavoriteArticle} className="btn-favorite">
-        {favorited ? <img src={heartImgFill} /> : <img src={heartImg} />}
+      <button onClick={onChangFavoriteArticle} className="btn-favorite">
+        {favorited ? <img src={heartImgFill} alt="" /> : <img src={heartImg} alt="" />}
         <span>{favoritesCount}</span>
-      </a>
+      </button>
     </div>
   );
 };
 
 export default Like;
+
+/* 
+      <a onClick={onChangFavoriteArticle} className="btn-favorite">
+        {favorited ? <img src={heartImgFill} alt="" /> : <img src={heartImg} alt="" />}
+        <span>{favoritesCount}</span>
+      </a>
+       */
