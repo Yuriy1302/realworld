@@ -15,8 +15,8 @@ const ErrorIndicator = () => {
           <button type='button' onClick={() => window.location.reload()} className='btn-err'>Продолжить</button>
         </div>
       </div>
-      <div className="myShadow1"></div>
-      <div className="myShadow2"></div>
+      <div className="myShadow1" />
+      <div className="myShadow2" />
     </div>
   );
 }

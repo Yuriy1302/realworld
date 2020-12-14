@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import heartImg from '../../images/heart.svg';
 import heartImgFill from '../../images/path4.svg';
@@ -7,7 +8,7 @@ const Like = (props) => {
   const { favorited, favoritesCount, onChangFavoriteArticle } = props;
   return (
     <div>
-      <button onClick={onChangFavoriteArticle} className="btn-favorite">
+      <button type="button" onClick={onChangFavoriteArticle} className="btn-favorite">
         {favorited ? <img src={heartImgFill} alt="" /> : <img src={heartImg} alt="" />}
         <span>{favoritesCount}</span>
       </button>
@@ -15,11 +16,10 @@ const Like = (props) => {
   );
 };
 
-export default Like;
+Like.propTypes = {
+  favorited: PropTypes.bool.isRequired,
+  favoritesCount: PropTypes.number.isRequired,
+  onChangFavoriteArticle: PropTypes.func.isRequired
+}
 
-/* 
-      <a onClick={onChangFavoriteArticle} className="btn-favorite">
-        {favorited ? <img src={heartImgFill} alt="" /> : <img src={heartImg} alt="" />}
-        <span>{favoritesCount}</span>
-      </a>
-       */
+export default Like;

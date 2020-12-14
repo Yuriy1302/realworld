@@ -23,6 +23,7 @@ const CreateArticle = (props) => {
   const onSubmitArticle = async (data) => {
     await dispatch(createArticle(data, token));
     await dispatch(getArticlesList());
+    // eslint-disable-next-line
     await props.history.push('/'); // Переход на общий список
   }
 
@@ -46,6 +47,7 @@ const CreateArticle = (props) => {
     const newTag = `tagsList[${indexes.length}]`;
     setTags(prevTags => [...prevTags, newTag]);
     setCounter(prevCounter => prevCounter + 1);
+    return null;
   }
 
   const removeField = (item) => {
@@ -53,9 +55,10 @@ const CreateArticle = (props) => {
       return false;
     }
     const index = tags.indexOf(item);
-    setTags(prevTags => [...prevTags.filter(item => item !== tags[index])]);
+    setTags(prevTags => [...prevTags.filter(el => el !== tags[index])]);
+    return null;
   }
-    
+
   const renderTagInput = (item) => {
     return (
       <fieldset key={item} name={item} className="form-group row input-bottom" style={{ display: 'flex' }}>
@@ -64,7 +67,7 @@ const CreateArticle = (props) => {
               style={{ width: '50%' }}
               name={item}
               placeholder="Tag"
-              ref={register({ required: true })}
+              ref={register({ required: false })}
         />
         {errors[item] && <p className="text-error" style={{ color: 'red' }} >The field is required, add the tag or delete this field</p>}
         
@@ -111,9 +114,7 @@ const CreateArticle = (props) => {
         />
         { errors.description && <span className="text-danger">The field must be filled</span> }
         
-        
-        
-        <label htmlFor="" className="label">Text</label>
+        <label htmlFor="body" className="label">Text</label>
         <textarea className="input textarea"
                   name="body"
                   id="body"
@@ -124,7 +125,7 @@ const CreateArticle = (props) => {
         />
         { errors.body && <span className="text-danger">The field must be filled</span> }
 
-        <label htmlFor="" className="label">Tags</label>
+        <span className="label">Tags</span>
         {
           tags.map(item => {
             return renderTagInput(item)

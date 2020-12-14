@@ -27,7 +27,10 @@ const SignIn = (props) => {
     )
   }
 
-  if (isLoggedIn) props.history.push('/');
+  if (isLoggedIn) {
+    // eslint-disable-next-line
+    props.history.push('/');
+  }
 
   const onLogIn = (userRegister) => {
     dispatch(authentication(userRegister));
@@ -58,7 +61,7 @@ const SignIn = (props) => {
         { errors.password?.type === 'maxLength' && <span className="text-danger">Your password must be no more than 40 characters long</span>}
 
         <button type="submit" className="btn-primary">Login</button>
-        <span className="footnote">Don't have an account? <Link to="/sign-up">Sign Up.</Link></span>
+        <span className="footnote">Don&apos;t have an account? <Link to="/sign-up">Sign Up.</Link></span>
       </form>
     </div>
   )

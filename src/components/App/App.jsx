@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ import SignUp from '../SignUp';
 
 const App = (props) => {
   const { error } = props;
-  const token = localStorage.getItem('token');
+  /* const token = localStorage.getItem('token'); */
   
   if (error) {
       return <ErrorIndicator />
@@ -25,7 +26,7 @@ const App = (props) => {
   return (
     <div>
       <Router>
-        <HeaderTab token={token} />
+        <HeaderTab /* token={token} */ />
         <main className="main">
           <Route path="/" exact component={ArticlesList} />
           <Route path="/my-articles" exact component={MyArticles} />
@@ -59,6 +60,10 @@ const mapStateToProps = (state) => {
     loader,
     error
   };
+}
+
+App.propTypes = {
+  error: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(App);

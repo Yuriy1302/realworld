@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,5 +26,9 @@ const EditArticle = (props) => {
     </div>
   );
 };
+
+EditArticle.propTypes = {
+  slug: PropTypes.string.isRequired
+}
 
 export default withRouter(EditArticle);

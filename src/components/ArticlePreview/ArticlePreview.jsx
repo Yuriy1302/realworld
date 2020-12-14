@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Like from './Like';
+import ErrorIndicator from '../ErrorIndicator';
 
 import { setFavoriteArticle } from '../../actions';
 
@@ -24,6 +25,11 @@ const ArticlePreview = (props) => {
     favoritesCount,
     slug,
     author } = article;
+    
+  if (author === undefined) {
+    return <ErrorIndicator />
+  }
+  
   const { username, image } = author;
   
   const onChangFavoriteArticle = () => {

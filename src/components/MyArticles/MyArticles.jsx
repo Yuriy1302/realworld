@@ -1,5 +1,6 @@
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import Spiner from '../Spiner';
 import ArticlePreview from '../ArticlePreview';
@@ -7,13 +8,14 @@ import ArticlePreview from '../ArticlePreview';
 import { getMyselfArticles } from '../../actions';
 
 const MyArticles = (props) => {
-  const { getMyselfArticles, loader, articles } = props;
+  const dispatch = useDispatch();
+  const { loader, articles } = props;
   const author = localStorage.getItem('localUser');
 
   useEffect(() => {
-    getMyselfArticles(author);
+    dispatch(getMyselfArticles(author));
     // eslint-disable-next-line
-  }, [getMyselfArticles]);
+  }, []);
 
   return (
     <div>
@@ -31,6 +33,11 @@ const mapStateToProps = (state) => {
     loader,
     articles,
   };
+}
+
+MyArticles.propTypes = {
+  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loader: PropTypes.bool.isRequired,
 }
 
 export default connect(mapStateToProps, { getMyselfArticles })(MyArticles);

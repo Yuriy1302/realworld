@@ -1,57 +1,32 @@
 import { format } from 'date-fns';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import MarkdownView from 'react-showdown';
 import { Popconfirm, message } from 'antd';
 import { withRouter } from 'react-router-dom';
+import uniqueid from 'lodash.uniqueid';
 
 import Spiner from '../Spiner';
+import Like from '../ArticlePreview/Like';
 
-import { getArticle, deleteArticle } from '../../actions';
+import { getArticle, deleteArticle, setFavoriteArticle } from '../../actions';
 
 import './Article.css';
 
-const Article = (props) => {
-  const { slug, article, loader, getArticle, isLoggedIn, username } = props;
+const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, props) => {
   
-  useEffect(() => {
-    async function fetchData() {
-      await getArticle(slug);
-    }
-    fetchData();    
-  }, [slug, getArticle]);
-
-  if (loader) {
-    return <Spiner />
-  }
-
-  return (
-    article ? articleRender(article, isLoggedIn, username, props) : null
-  );
-};
-
-const mapStateToProps = (state) => {
-  const { article, loader, isLoggedIn, user } = state;
-  return {
-    article,
-    loader,
-    isLoggedIn,
-    username: user.username
-  };
-}
-
-const articleRender = (article, isLoggedIn, username, props) => {
   const {
     slug,
     title,
     description,
     body,
     createdAt,
+    favorited,
     favoritesCount,
     tagList,
     author
   } = article;
-  const { deleteArticle } = props;
+
   const token = localStorage.getItem('token');
 
   const confirm = () => {
@@ -70,11 +45,13 @@ const articleRender = (article, isLoggedIn, username, props) => {
         <div className="article-item__block">
           <div className="article-item__info">
             <h2 className="article-item__title">{title}</h2>
-            <span className="article-item__likes">{favoritesCount}</span>
+            <Like favorited={favorited}
+                    favoritesCount={favoritesCount}
+                    onChangFavoriteArticle={onChangFavoriteArticle} />
           </div>
           <div className="article-item__tags">
             { tagList.length !== 0
-                ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>)
+                ? tagList.map((tag) => <span className="tag" key={uniqueid()}>{tag}</span>)
                 : null
             }            
           </div>
@@ -117,5 +94,45 @@ const articleRender = (article, isLoggedIn, username, props) => {
     </div>
   );
 };
+
+const Article = (props) => {
+  const { slug, article, loader, isLoggedIn, username } = props;
+  const dispatch = useDispatch();
+
+  const onChangFavoriteArticle = () => {
+    if (isLoggedIn) {
+      const token = localStorage.getItem('token');
+      dispatch(setFavoriteArticle(slug, token));
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      dispatch(getArticle(slug));
+    }
+    fetchData();
+    // eslint-disable-next-line  
+  }, []);
+
+  if (loader) {
+    return <Spiner />
+  }
+
+  return (
+    article ? articleRender(article, isLoggedIn, username, onChangFavoriteArticle, props) : null
+  );
+};
+
+const mapStateToProps = (state) => {
+  const { article, loader, isLoggedIn, user } = state;
+  return {
+    article,
+    loader,
+    isLoggedIn,
+    username: user.username
+  };
+}
+
+
 
 export default connect(mapStateToProps, { getArticle, deleteArticle })(withRouter(Article));
