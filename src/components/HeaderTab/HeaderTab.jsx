@@ -127,7 +127,7 @@ UserProfile.propTypes = {
   handleLogOut: PropTypes.func.isRequired,
   loadMyArticles: PropTypes.func.isRequired,
   handleCreateArticle: PropTypes.func.isRequired,
-  user: PropTypes.objectOf(PropTypes.string).isRequired
+  user: PropTypes.objectOf(PropTypes.any).isRequired
 }
 
 export default withRouter(HeaderTab);

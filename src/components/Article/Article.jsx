@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import MarkdownView from 'react-showdown';
-import { Popconfirm, message } from 'antd';
+import { Popconfirm, notification } from 'antd';
 import { withRouter } from 'react-router-dom';
 import uniqueid from 'lodash.uniqueid';
 
@@ -13,7 +13,7 @@ import { getArticle, deleteArticle, setFavoriteArticle } from '../../actions';
 
 import './Article.css';
 
-const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, props) => {
+const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, confirm, props) => {
   
   const {
     slug,
@@ -26,17 +26,20 @@ const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, pr
     tagList,
     author
   } = article;
-
+  console.log('favorited: ', favorited);
   const token = localStorage.getItem('token');
 
-  const confirm = () => {
+  /* const confirm = () => {
     message.success('Click on Yes');
     deleteArticle(slug, token, username);
     props.history.push(`/my-articles`);
-  }
+  } */
 
   const cancel = () => {
-    message.error('Click on No');
+      notification.info({
+        message: "Canceled",
+        duration: 2
+      });
   }
 
   return (
@@ -74,7 +77,7 @@ const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, pr
                   <Popconfirm
                     placement="right"
                     title="Are you sure to delete this article?"
-                    onConfirm={confirm}
+                    onConfirm={() => confirm(slug, token, username)}
                     onCancel={cancel}
                     okText="Yes"
                     cancelText="No"
@@ -95,9 +98,20 @@ const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, pr
   );
 };
 
-const Article = (props) => {
+const Article = (props) => { // Здесь передается идентификатор статьи. В состоянии пусто.
   const { slug, article, loader, isLoggedIn, username } = props;
   const dispatch = useDispatch();
+  
+  console.log('article in Article: ', article);
+
+  const confirm = (slug, token, username) => {
+    notification.success({
+      message: "Article was deleted",
+      duration: 2
+    });
+    dispatch(deleteArticle(slug, token, username));
+    props.history.push(`/my-articles`);
+  }
 
   const onChangFavoriteArticle = () => {
     if (isLoggedIn) {
@@ -107,19 +121,22 @@ const Article = (props) => {
   }
 
   useEffect(() => {
-    async function fetchData() {
-      dispatch(getArticle(slug));
+    /* async */ function fetchData() {
+      const token = localStorage.getItem('token');
+      dispatch(getArticle(slug, token));
     }
     fetchData();
     // eslint-disable-next-line  
-  }, []);
+  }, [slug]);
 
   if (loader) {
     return <Spiner />
   }
+  
+  console.log('favorited in Article: ', article?.favorited);
 
   return (
-    article ? articleRender(article, isLoggedIn, username, onChangFavoriteArticle, props) : null
+    article ? articleRender(article, isLoggedIn, username, onChangFavoriteArticle, confirm, props) : null
   );
 };
 
@@ -132,7 +149,5 @@ const mapStateToProps = (state) => {
     username: user.username
   };
 }
-
-
 
 export default connect(mapStateToProps, { getArticle, deleteArticle })(withRouter(Article));

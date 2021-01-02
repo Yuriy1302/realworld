@@ -3,6 +3,10 @@ export const loginAction = () => ({ type: 'LOG_IN' });
 export const resetErrorsResponse = () => ({ type: 'RESET_ERRORS_RESPONSE' });
 
 
+export const setLike = () => ({ type: 'SET_LIKE' });
+export const deleteLike = () => ({ type: 'DELETE_LIKE' });
+
+
 /* Запрос списка статей */
 export const getArticlesList = (offset = 0, token) => {
   return async (dispatch) => {
@@ -77,14 +81,22 @@ export const togglePage = (page) => ({
   payload: page
 });
 
+
 /* Запрос статьи по идентификатору (slug) */
-export const getArticle = (slug) => {
+export const getArticle = (slug, token) => {
   return async (dispatch) => {
     dispatch({
       type: 'GET_ONE_ARTICLE_REQUEST'
     });
     try {
-      const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`);
+      const options = token ? {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': "Token " + token
+        }
+      } : {};
+      const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, options);
       const result = await response.json();
       dispatch({
         type: 'GET_ONE_ARTICLE_SUCCESS',
@@ -466,6 +478,11 @@ export const updateArticle = (token, slug, newData) => {
 /* Добавление лайка */
 export const setFavoriteArticle = (slug, token, offset) => {
   return async (dispatch) => {
+
+
+    dispatch(setLike());
+
+
     dispatch({
       type: 'ADD_FAVORITE_ARTICLE_REQUEST'
     });

@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+
 import Like from './Like';
 import ErrorIndicator from '../ErrorIndicator';
 
@@ -25,7 +26,9 @@ const ArticlePreview = (props) => {
     favoritesCount,
     slug,
     author } = article;
-    
+  
+  console.log('favorited in preview: ', favorited);
+
   if (author === undefined) {
     return <ErrorIndicator />
   }

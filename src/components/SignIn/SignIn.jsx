@@ -43,6 +43,7 @@ const SignIn = (props) => {
         <label htmlFor="email" className="label">Email address</label>
         <input type="email"
                name="email"
+               id="email"
                className={classNames({ "input-form": true, "input-error": errors.email })}
                placeholder="Email address"
                ref={register({ required: true })}
@@ -52,6 +53,7 @@ const SignIn = (props) => {
         <label htmlFor="password" className="label">Password</label>
         <input type="password"
                name="password"
+               id="password"
                className={classNames({ "input-form": true, "input-error": errors.password })}
                placeholder="Password"
                ref={register({ required: true, minLength: 6, maxLength: 40 })}

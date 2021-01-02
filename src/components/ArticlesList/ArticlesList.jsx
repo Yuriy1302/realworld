@@ -24,26 +24,30 @@ const ArticlesList = (props) => {
   };
   
   return (
-    <div>
+    <div className="articles-list">
       <div>
         {
           loader
             ? <Spiner />
             : articles.map((article) => (
-                <ArticlePreview key={article.slug}article={article} pageCurrent={pageCurrent} />
+                <ArticlePreview key={article.slug} article={article} pageCurrent={pageCurrent} />
               ))
         }
       </div>
-      <div className="pagination">
-        <Pagination
-          size="small"
-          total={articlesCount}
-          pageSize={20}
-          showSizeChanger={false}
-          current={pageCurrent}
-          onChange={handlePage}
-        />
-      </div>
+      {
+        !loader
+          ? <div className="pagination">
+              <Pagination
+                size="small"
+                total={articlesCount}
+                pageSize={20}
+                showSizeChanger={false}
+                current={pageCurrent}
+                onChange={handlePage}
+              />
+            </div>
+          : null
+      }
     </div>
   );
 };

@@ -42,6 +42,7 @@ const SignUp = (props) => {
         <label htmlFor="username" className="label">Username</label>
         <input type="text"
                name="username"
+               id="username"
                className={classNames({ "input-form": true, "input-error": errors.username })}
                placeholder="Username"
                ref={register({ required: true, minLength: 3, maxLength: 20 })}
@@ -56,6 +57,7 @@ const SignUp = (props) => {
         <label htmlFor="email" className="label">Email address</label>
         <input type="email"
                name="email"
+               id="email"
                className={classNames({ "input-form": true, "input-error": errors.email })}
                placeholder="Email address"
                ref={register({ required: true,
@@ -73,6 +75,7 @@ const SignUp = (props) => {
         <label htmlFor="password" className="label">Password</label>
         <input type="password"
                name="password"
+               id="password"
                onChange={onChangePassword}
                className={classNames({ "input-form": true, "input-error": errors.password })}
                placeholder="Password"
@@ -84,6 +87,7 @@ const SignUp = (props) => {
 
         <label htmlFor="confirmPassword" className="label">Repeat Password</label>
         <input type="password"
+               id="confirmPassword"
                name="confirmPassword"
                className={classNames({ "input-form": true, "input-error": errors.confirmPassword })}
                placeholder="Password"

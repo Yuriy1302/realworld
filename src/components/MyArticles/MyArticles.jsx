@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 
 import Spiner from '../Spiner';
 import ArticlePreview from '../ArticlePreview';
+import { Empty } from 'antd';
 
 import { getMyselfArticles } from '../../actions';
+
+import './MyArticles.css';
 
 const MyArticles = (props) => {
   const dispatch = useDispatch();
@@ -16,6 +19,14 @@ const MyArticles = (props) => {
     dispatch(getMyselfArticles(author));
     // eslint-disable-next-line
   }, []);
+
+  if (!articles.length) {
+    return (
+      <div class="empty-data">
+        <Empty description={"You have no articles"} />
+      </div>
+    )
+  }
 
   return (
     <div>
