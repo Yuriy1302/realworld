@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Like from './Like';
 import ErrorIndicator from '../ErrorIndicator';
 
-import { setFavoriteArticle } from '../../actions';
+import { setFavoriteArticle, deleteFavoriteArticle } from '../../actions';
 
 import './ArticlePreview.css';
 import userImg from '../../images/user.svg';
@@ -34,11 +34,17 @@ const ArticlePreview = (props) => {
   }
   
   const { username, image } = author;
-  
+  /* const token = localStorage.getItem('token'); */
+
   const onChangFavoriteArticle = () => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !favorited) {
       const token = localStorage.getItem('token');
       dispatch(setFavoriteArticle(slug, token, pageCurrent * 20 - 20));
+    }
+
+    if (isLoggedIn && favorited) {
+      const token = localStorage.getItem('token');
+      dispatch(deleteFavoriteArticle(slug, token, pageCurrent * 20 - 20));
     }
   }
 

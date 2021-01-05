@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { withRouter } from 'react-router-dom';
 
-import uniqueId from 'lodash.uniqueid';
-
 import { createArticle, getArticlesList } from '../../actions';
 
 import './CreateArticle.css';
@@ -18,41 +16,9 @@ const CreateArticle = (props) => {
   const [ indexes, setIndexes ] = useState([0]); 
   const [ counter, setCounter ] = useState(1);
   const [ tags, setTags ] = useState(['tagsList[0]']);
-  /* for value of input tag */
-  const [ tag, setTag ] = useState('');
-  const [ tagsList, setTagsList ] = useState([]);
-
   
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
-
-  /* for value of input tag */
-  const onChangeTag = (event) => {
-    /* event.preventDefault(); */
-    const { value } = event.target;
-    setTag(value);
-  }
-
-  
-
-
-  const addTag = () => {
-    const newTagsList = [ ...tagsList, tag ];
-    setTagsList(newTagsList);
-    setTag('');  
-        
-  }
-
-  const deleteTag = (event) => {
-    event.preventDefault();
-    const { textContent } = event.target;
-    const index = tagsList.indexOf(textContent);
-    const newTagsList = [ ...tagsList.slice(0, index), ...tagsList.slice(index + 1) ];
-    setTagsList(newTagsList);
-  }
-
-
-
 
   const onSubmitArticle = async (data) => {
     await dispatch(createArticle(data, token));
@@ -76,24 +42,24 @@ const CreateArticle = (props) => {
     setBody(value);
   }
 
-  /* const addField = () => {
+  const addField = () => {
     setIndexes(prevIndexes => [...prevIndexes, counter]);
     const newTag = `tagsList[${indexes.length}]`;
     setTags(prevTags => [...prevTags, newTag]);
     setCounter(prevCounter => prevCounter + 1);
     return null;
-  } */
+  }
 
-  /* const removeField = (item) => {
+  const removeField = (item) => {
     if (tags.length === 1) {
       return false;
     }
     const index = tags.indexOf(item);
     setTags(prevTags => [...prevTags.filter(el => el !== tags[index])]);
     return null;
-  } */
+  }
 
-  /* const renderTagInput = (item) => {
+  const renderTagInput = (item) => {
     return (
       <fieldset key={item} name={item} className="form-group row input-bottom" style={{ display: 'flex' }}>
         <input type="text"
@@ -118,7 +84,7 @@ const CreateArticle = (props) => {
                 >Add</button> : null }
       </fieldset>
     );
-  }; */
+  };
 
   return (
     <div>
@@ -160,41 +126,12 @@ const CreateArticle = (props) => {
           />
           { errors.body && <span className="text-danger">The field must be filled</span> }
 
-          {/* <span className="label">Tags</span> */}
-          {/* {
+          <span className="label">Tags</span>
+          {
             tags.map(item => {
               return renderTagInput(item)
             })
-          } */}
-
-          
-          
-            <label htmlFor="tag" className="label">Tags</label>
-            {
-            !tagsList.length ? null : <div>{tagsList.map(item => (
-              <span className="tag" key={uniqueId()} onClick={deleteTag}>{item}</span>
-            ))}</div>
           }
-            <fieldset>
-            <input type="text"
-                  className="input mr-5"
-                  style={{ width: '300px' }}
-                  placeholder="Tag"
-                  value={tag}
-                  id="tag"
-                  name="tag"
-                  onChange={(event) => {if (event.key === 'Enter') {addTag()}; onChangeTag(event)}}
-                  
-                  
-                  ref={register({
-                    validate: (value) => value.trim().length !== 0
-                  })} />
-            {/* { errors.tag && <span style={{ color: 'red', fontSize: '14px' }}>The field cannot be empty</span> } */}
-            <button type="button" onClick={addTag} className="btn btn-primary">Add</button>
-          
-            </fieldset>
-
-
           
           <button type="submit" className="btn-primary w300">Send</button>        
         </form>

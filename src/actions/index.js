@@ -480,7 +480,7 @@ export const setFavoriteArticle = (slug, token, offset) => {
   return async (dispatch) => {
 
 
-    dispatch(setLike());
+    /* dispatch(setLike()); */
 
 
     dispatch({
@@ -514,6 +514,48 @@ export const setFavoriteArticle = (slug, token, offset) => {
     };
   }
 };
+
+/* Удалить лайк */
+export const deleteFavoriteArticle = (slug, token, offset) => {
+  return async (dispatch) => {
+
+
+    /* dispatch(deleteLike()); */
+
+
+    dispatch({
+      type: 'UNFAVORITE_ARTICLE_REQUEST'
+    });
+    try {
+      const response = await fetch(
+        `https://conduit.productionready.io/api/articles/${slug}/favorite`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': "Token " + token
+          }
+        }
+      );
+      const result = await response.json();
+      console.log('result in action unfavorited article: ', result);
+      /* Диспатч на обновление списка статей ? */
+      
+      dispatch({
+        type: 'UNFAVORITE_ARTICLE_SUCCESS',
+        payload: result.article,
+      });
+      /* dispatch(getArticlesList(offset)); */
+    } catch(error) {
+        console.error('Возникла ошибка: ', error);
+        dispatch({
+          type: 'UNFAVORITE_ARTICLE_FAILURE'
+        });
+    };
+  }
+};
+
+
 
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notification } from 'antd';
 
@@ -11,12 +11,14 @@ import './EditProfile.css';
 
 const EditProfile = (props) => {
   const token = localStorage.getItem('token');
-  const { user, updateNewData } = props;
+  const { user, isLoggedIn/* , updateNewData */ } = props;
 
   // !!! Сделать получение профиля через запрос getProfile. Соответственно сделать экшен такой и состояние.
+  
+  
     
-  return user
-          ? <ProfileForm user={user} token={token} updateNewData={updateNewData} />
+  return isLoggedIn
+          ? <ProfileForm user={user} token={token} /* updateNewData={updateNewData} */ />
           : <Spiner />;
 };
 
@@ -28,7 +30,8 @@ const mapStateToProps = (state) => {
 const ProfileForm = (props) => {
   const { username, email } = props.user;
   // console.log('username: ', username);
-  const { token, updateNewData } = props;
+  const dispatch = useDispatch();
+  const { token/* , updateNewData */ } = props;
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       username,
@@ -44,7 +47,7 @@ const ProfileForm = (props) => {
         newData[item] = data[item];
       }
     }
-    updateNewData(token, newData);
+    dispatch(updateNewData(token, newData));
     notification.success({
       message: "Correction of profile saved",
       duration: 2

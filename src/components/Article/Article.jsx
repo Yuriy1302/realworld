@@ -9,7 +9,7 @@ import uniqueid from 'lodash.uniqueid';
 import Spiner from '../Spiner';
 import Like from '../ArticlePreview/Like';
 
-import { getArticle, deleteArticle, setFavoriteArticle } from '../../actions';
+import { getArticle, deleteArticle, setFavoriteArticle, deleteFavoriteArticle } from '../../actions';
 
 import './Article.css';
 
@@ -114,10 +114,16 @@ const Article = (props) => { // Здесь передается идентифи
   }
 
   const onChangFavoriteArticle = () => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !article.favorited) {
       const token = localStorage.getItem('token');
       dispatch(setFavoriteArticle(slug, token));
     }
+
+    if (isLoggedIn && article.favorited) {
+      const token = localStorage.getItem('token');
+      dispatch(deleteFavoriteArticle(slug, token));
+    }
+
   }
 
   useEffect(() => {

@@ -187,7 +187,31 @@ const reducer = (state = initialState, action) => {
       }
     }
 
-    case 'SET_LIKE':
+    case 'UNFAVORITE_ARTICLE_SUCCESS': {
+      const { articles } = state;
+      // console.log('articles: ', articles);
+      const { favorited, favoritesCount, slug } = action.payload;
+      /* console.log('item[0]: ', articles[0].slug); */
+      const index = articles.findIndex((item) => item.slug === slug);
+      /* console.log('index: ', index); */
+      const oldArticle = articles[index];
+      // console.log('oldArticle: ', oldArticle);
+      const newArticle = { ...oldArticle, favorited, favoritesCount };
+      // console.log('newArticle: ', newArticle);
+      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+      return {
+        ...state,
+        loader: false,
+        error: false,
+        article: action.payload,
+        articles: newArticles
+      }
+    }
+
+
+
+
+/*     case 'SET_LIKE':
       return {
         ...state,
         liked: true
@@ -197,7 +221,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         liked: false
-      }
+      } */
       
 
 

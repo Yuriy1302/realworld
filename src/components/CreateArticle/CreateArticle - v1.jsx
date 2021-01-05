@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { createArticle, getArticlesList } from '../../actions';
 
-import './CreateArticle.css';
+/* import './CreateArticle.css'; */
 
 const CreateArticle = (props) => {
   const token = localStorage.getItem('token');

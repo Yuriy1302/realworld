@@ -20,9 +20,12 @@ const EditArticle = (props) => {
   const article = useSelector((state) => state.article);
 
   return (
-    <div className="create-article">
-      <h2>Edit article</h2>
-      { article ? <EditArticleRenderForm article={article} /> : <Spiner /> }
+    <div>
+      <div className="edite-article">
+        <h2>Edit article</h2>
+        { article ? <EditArticleRenderForm article={article} /> : <Spiner /> }
+      </div>
+      <div className="p-top"></div>
     </div>
   );
 };

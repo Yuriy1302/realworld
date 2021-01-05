@@ -4,6 +4,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import classNames from 'classnames';
 
+import { notification } from 'antd';
+
 import { authentication, resetErrorsResponse } from '../../actions';
 
 import './SignIn.css';
@@ -14,7 +16,12 @@ const SignIn = (props) => {
   const { register, handleSubmit, errors } = useForm();
   
   if (errorsResponse) {
-    return (
+    notification.error({
+      message: "Email or password is invalid",
+      duration: 2
+    });
+    dispatch(resetErrorsResponse());
+    /* return (
       <div className="sign-in-accaunt">
         <h3>Email or password is invalid</h3>
         <button type="button"
@@ -24,7 +31,7 @@ const SignIn = (props) => {
           Try again
         </button>
       </div>
-    )
+    ) */
   }
 
   if (isLoggedIn) {

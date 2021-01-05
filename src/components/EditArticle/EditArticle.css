@@ -1,4 +1,4 @@
-.create-article {
+.edite-article {
   width: 938px;
   height: 701px;
   margin: 34px auto;
@@ -14,7 +14,7 @@
     0px 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-.create-article h2 {
+.edite-article h2 {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;

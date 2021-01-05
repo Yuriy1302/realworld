@@ -20,9 +20,11 @@ const MyArticles = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  
+
   if (!articles.length) {
     return (
-      <div class="empty-data">
+      <div className="empty-data">
         <Empty description={"You have no articles"} />
       </div>
     )

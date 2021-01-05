@@ -1,6 +1,10 @@
+
+
+
 .create-article {
   width: 938px;
-  height: 701px;
+  height: auto;
+  min-height: 630px;
   margin: 34px auto;
   padding: 32px;
   background-color: #ffffff;
@@ -136,4 +140,16 @@
 
 .btn-primary:hover {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.p-top {
+  padding-top: 40px;
+}
+
+.tag {
+  border: 1px solid #7e7e7e;
+  border-radius: 3px;
+  padding: 2px 5px;
+  margin-right: 3px;
+  cursor: pointer;
 }
