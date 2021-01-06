@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import uniqueId from 'lodash.uniqueid';
 
 import Spiner from '../Spiner';
 
@@ -15,8 +13,8 @@ import './EditArticle.css';
 const EditArticleRenderForm = (props) => {
   const token = localStorage.getItem('token');
   const { article } = props;
-  
-  /* const [ indexes, setIndexes ] = useState([0]); 
+
+  const [ indexes, setIndexes ] = useState([0]); 
   const [ counter, setCounter ] = useState(1);
   const [ tags, setTags ] = useState(['tagList[0]']);
 
@@ -33,25 +31,20 @@ const EditArticleRenderForm = (props) => {
     setCounter(article.tagList.length + 1);
     setIndexes(arr2)
     // eslint-disable-next-line
-  }, []); */
-
-  const [ tag, setTag ] = useState('');
-  const [ tagsList, setTagsList ] = useState(article.tagList);
-  const [ includesTagMessage, setIncludesTagMessage ] = useState(false);
-  const [ emtyTagMessag, setEmtyTagMessag ] = useState(false);
+  }, []);
   
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       title: article.title,
       description: article.description,
       body: article.body,
-      /* tagList: article.tagList */
+      tagList: article.tagList
     }
   });
 
   const dispatch = useDispatch();
 
-  /* const onSubmitArticle = async (data) => {
+  const onSubmitArticle = async (data) => {
     let newData = {};
     for (let item in data) {
       if (data[item] !== '') {
@@ -60,17 +53,9 @@ const EditArticleRenderForm = (props) => {
     }
     await dispatch(updateArticle(token, article.slug, newData));
     await props.history.push(`/articles/${article.slug}`); // Переход обратно на статью
-  } */
-
-  const onSubmitArticle = async (data) => {
-    /* console.log(tagsList); */
-    data.tagList = tagsList;
-    await dispatch(updateArticle(token, article.slug, data));
-    // eslint-disable-next-line
-    await props.history.push(`/articles/${article.slug}`); // Переход на общий список
   }
 
-  /* const addField = () => {
+  const addField = () => {
     setIndexes(prevIndexes => [...prevIndexes, counter]);
     const newTag = `tagList[${indexes.length}]`;
     setTags(prevTags => [...prevTags, newTag]);
@@ -110,55 +95,7 @@ const EditArticleRenderForm = (props) => {
                 >Add</button> : null }
       </fieldset>
     );
-  }; */
-
-/* for value of input tag */
-const onChangeTag = (event) => {
-  event.preventDefault();
-  if (includesTagMessage) {
-    setIncludesTagMessage(false);
-  }
-  if (emtyTagMessag) {
-    setEmtyTagMessag(false);
-  }
-  const { value } = event.target;
-  setTag(value);
-}
-
-
-const addTag = () => {
-  /* event.preventDefault(); */
-  if (tagsList.includes(tag)) {
-    setIncludesTagMessage(true);
-    return null;
-  }
-  if (tag === '' || tag.trim() === '') {
-    setEmtyTagMessag(true);
-    setTag('');
-    return null;
-  }
-  const newTagsList = [ ...tagsList, tag ];
-  setTagsList(newTagsList);
-  setTag('');
-  setIncludesTagMessage(false);
-}
-
-const deleteTag = (event) => {
-  event.preventDefault();
-  const { textContent } = event.target;
-  const index = tagsList.indexOf(textContent);
-  const newTagsList = [ ...tagsList.slice(0, index), ...tagsList.slice(index + 1) ];
-  setTagsList(newTagsList);
-}
-
-const tagClass = classNames({
-  tag: true,
-  'tag-include': includesTagMessage
-});
-
-
-
-
+  };
 
   return (
     article
@@ -192,53 +129,12 @@ const tagClass = classNames({
           />
           { errors.body && <span className="text-danger">The field must be filled</span> }
 
-          {/* <label htmlFor="" className="label">Tags</label>
+          <label htmlFor="" className="label">Tags</label>
           {
             tags.map((item, index) => {
               return renderTagInput(item, index)
             })
-          } */}
-
-          <label htmlFor="tag" className="label">Tags</label>
-            <fieldset>
-            {
-            !tagsList.length ? null : <div>{tagsList.map(item => (
-              <span className={item !== tag ? "tag" : tagClass} key={uniqueId()} onClick={deleteTag}>{item}</span>
-            ))}</div>
           }
-            
-              <input type="text"
-                    className="input m-right"
-                    style={{ width: '300px' }}
-                    placeholder="Tag"
-                    value={tag}
-                    id="tag"
-                    name="tag"
-                    onChange={onChangeTag}
-
-                    onKeyDown={(event) => {
-                        
-                        if (event.key === 'Enter') {
-                          // console.log("You pressed 'Enter' key!");
-                          event.preventDefault();
-                          addTag();
-                        }
-                        return false;
-                      }
-                    }
-
-                   /*  ref={register({
-                      validate: (value) => value.trim().length !== 0
-                    })} */ />
-              {/* { errors.tag && <span style={{ color: 'red', fontSize: '14px' }}>The field cannot be empty</span> } */}
-              <button type="button" onClick={addTag} className="btn-add">Add</button>
-              { includesTagMessage && <div style={{ color: 'red' }}>There is such a tag</div> }
-              { emtyTagMessag && <div style={{ color: 'red' }}>The tag cannot be empty</div>}
-            </fieldset>
-
-
-
-          
 
           <button type="submit" className="btn-primary w300">Send</button>
         </form>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 
 import uniqueId from 'lodash.uniqueid';
 
@@ -15,12 +16,12 @@ const CreateArticle = (props) => {
   const [ description, setDescription ] = useState('');
   const [ body, setBody ] = useState('');
   
-  const [ indexes, setIndexes ] = useState([0]); 
-  const [ counter, setCounter ] = useState(1);
-  const [ tags, setTags ] = useState(['tagsList[0]']);
+  
   /* for value of input tag */
   const [ tag, setTag ] = useState('');
   const [ tagsList, setTagsList ] = useState([]);
+  const [ includesTagMessage, setIncludesTagMessage ] = useState(false);
+  const [ emtyTagMessag, setEmtyTagMessag ] = useState(false);
 
   
   const { register, handleSubmit, errors } = useForm();
@@ -28,19 +29,33 @@ const CreateArticle = (props) => {
 
   /* for value of input tag */
   const onChangeTag = (event) => {
-    /* event.preventDefault(); */
+    event.preventDefault();
+    if (includesTagMessage) {
+      setIncludesTagMessage(false);
+    }
+    if (emtyTagMessag) {
+      setEmtyTagMessag(false);
+    }
     const { value } = event.target;
     setTag(value);
   }
 
-  
-
 
   const addTag = () => {
+    /* event.preventDefault(); */
+    if (tagsList.includes(tag)) {
+      setIncludesTagMessage(true);
+      return null;
+    }
+    if (tag === '' || tag.trim() === '') {
+      setEmtyTagMessag(true);
+      setTag('');
+      return null;
+    }
     const newTagsList = [ ...tagsList, tag ];
     setTagsList(newTagsList);
-    setTag('');  
-        
+    setTag('');
+    setIncludesTagMessage(false);
   }
 
   const deleteTag = (event) => {
@@ -55,6 +70,7 @@ const CreateArticle = (props) => {
 
 
   const onSubmitArticle = async (data) => {
+    data.tagsList = tagsList.reverse();
     await dispatch(createArticle(data, token));
     await dispatch(getArticlesList());
     // eslint-disable-next-line
@@ -76,49 +92,12 @@ const CreateArticle = (props) => {
     setBody(value);
   }
 
-  /* const addField = () => {
-    setIndexes(prevIndexes => [...prevIndexes, counter]);
-    const newTag = `tagsList[${indexes.length}]`;
-    setTags(prevTags => [...prevTags, newTag]);
-    setCounter(prevCounter => prevCounter + 1);
-    return null;
-  } */
+  const tagClass = classNames({
+    tag: true,
+    'tag-include': includesTagMessage
+  });
 
-  /* const removeField = (item) => {
-    if (tags.length === 1) {
-      return false;
-    }
-    const index = tags.indexOf(item);
-    setTags(prevTags => [...prevTags.filter(el => el !== tags[index])]);
-    return null;
-  } */
-
-  /* const renderTagInput = (item) => {
-    return (
-      <fieldset key={item} name={item} className="form-group row input-bottom" style={{ display: 'flex' }}>
-        <input type="text"
-              className="input"
-              style={{ width: '50%' }}
-              name={item}
-              placeholder="Tag"
-              ref={register({ required: false })}
-        />
-        {errors[item] && <p className="text-error" style={{ color: 'red' }} >The field is required, add the tag or delete this field</p>}
-        
-        <button type="button"
-                className="btn btn-del"
-                style={{ marginLeft: '10px' }}
-                onClick={() => removeField(item)}
-        >Delete</button>
-
-        { tags.indexOf(item) === tags.length - 1 ? <button type="button"
-                  className="btn btn-add"
-                  style={{ marginLeft: '10px' }}
-                  onClick={addField}
-                >Add</button> : null }
-      </fieldset>
-    );
-  }; */
+  
 
   return (
     <div>
@@ -160,38 +139,42 @@ const CreateArticle = (props) => {
           />
           { errors.body && <span className="text-danger">The field must be filled</span> }
 
-          {/* <span className="label">Tags</span> */}
-          {/* {
-            tags.map(item => {
-              return renderTagInput(item)
-            })
-          } */}
-
-          
-          
+                  
             <label htmlFor="tag" className="label">Tags</label>
+            <fieldset>
             {
             !tagsList.length ? null : <div>{tagsList.map(item => (
-              <span className="tag" key={uniqueId()} onClick={deleteTag}>{item}</span>
+              <span className={item !== tag ? "tag" : tagClass} key={uniqueId()} onClick={deleteTag}>{item}</span>
             ))}</div>
           }
-            <fieldset>
-            <input type="text"
-                  className="input mr-5"
-                  style={{ width: '300px' }}
-                  placeholder="Tag"
-                  value={tag}
-                  id="tag"
-                  name="tag"
-                  onChange={(event) => {if (event.key === 'Enter') {addTag()}; onChangeTag(event)}}
-                  
-                  
-                  ref={register({
-                    validate: (value) => value.trim().length !== 0
-                  })} />
-            {/* { errors.tag && <span style={{ color: 'red', fontSize: '14px' }}>The field cannot be empty</span> } */}
-            <button type="button" onClick={addTag} className="btn btn-primary">Add</button>
-          
+            
+              <input type="text"
+                    className="input m-right"
+                    style={{ width: '300px' }}
+                    placeholder="Tag"
+                    value={tag}
+                    id="tag"
+                    name="tag"
+                    onChange={onChangeTag}
+
+                    onKeyDown={(event) => {
+                        
+                        if (event.key === 'Enter') {
+                          // console.log("You pressed 'Enter' key!");
+                          event.preventDefault();
+                          addTag();
+                        }
+                        return false;
+                      }
+                    }
+
+                   /*  ref={register({
+                      validate: (value) => value.trim().length !== 0
+                    })} */ />
+              {/* { errors.tag && <span style={{ color: 'red', fontSize: '14px' }}>The field cannot be empty</span> } */}
+              <button type="button" onClick={addTag} className="btn-add">Add</button>
+              { includesTagMessage && <div className="text-danger">There is such a tag</div> }
+              { emtyTagMessag && <div className="text-danger">The tag cannot be empty</div>}
             </fieldset>
 
 

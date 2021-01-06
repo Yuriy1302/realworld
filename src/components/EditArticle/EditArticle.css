@@ -96,13 +96,13 @@
 
 
 .btn-add {
-  width: 136px;
+  width: 110px;
   height: 40px;
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;
   font-size: 16px;
-  line-height: 24px;
+  /* line-height: 24px; */
   color: #1890FF;
   background-color: transparent;
   border: 1px solid #1890FF;
