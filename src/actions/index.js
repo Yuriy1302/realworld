@@ -399,7 +399,7 @@ export const createArticle = (newArticle, token) => {
   return async (dispatch) => {
     /* Начало запроса */
     dispatch({
-      type: 'CREATE_NEW_ARTICLE_REQUEST'
+      type: 'CREATE_NEW_ARTICLE_REQUEST' // Нет обработки экшена в редьюсере
     });
     try {
       /* запрос и положительный ответ */
@@ -478,13 +478,10 @@ export const updateArticle = (token, slug, newData) => {
 /* Добавление лайка */
 export const setFavoriteArticle = (slug, token, offset) => {
   return async (dispatch) => {
-
-
-    /* dispatch(setLike()); */
-
-
+    //console.log('Slug in action', slug);
     dispatch({
-      type: 'ADD_FAVORITE_ARTICLE_REQUEST'
+      type: 'ADD_FAVORITE_ARTICLE_REQUEST',
+      payload: slug
     });
     try {
       const response = await fetch(
@@ -500,7 +497,7 @@ export const setFavoriteArticle = (slug, token, offset) => {
       const result = await response.json();
       console.log('result in action favorited: ', result);
       /* Диспатч на обновление списка статей ? */
-      /* console.log('result from action like: ', result); */
+      //console.log('result from action like: ', result.article);
       dispatch({
         type: 'ADD_FAVORITE_ARTICLE_SUCCESS',
         payload: result.article,
@@ -520,11 +517,9 @@ export const deleteFavoriteArticle = (slug, token, offset) => {
   return async (dispatch) => {
 
 
-    /* dispatch(deleteLike()); */
-
-
     dispatch({
-      type: 'UNFAVORITE_ARTICLE_REQUEST'
+      type: 'UNFAVORITE_ARTICLE_REQUEST',
+      payload: slug
     });
     try {
       const response = await fetch(

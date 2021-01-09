@@ -166,9 +166,35 @@ const reducer = (state = initialState, action) => {
         error: false,
         article: action.payload
       } */
+
+      
+    case 'ADD_FAVORITE_ARTICLE_REQUEST': {
+      // console.log('state.articles: ', state.articles);
+      //console.log('state.article: ', state.article);
+      const { articles } = state;
+      const slug = action.payload;
+      // console.log('Request slug', slug);
+      const index = articles.findIndex((item) => item.slug === slug);
+      //console.log('Request index: ', index);
+      const oldArticle = articles[index];
+      //console.log("oldArticle favoritesCount", oldArticle.favoritesCount);
+      const newArticle = { ...oldArticle, favorited: true, favoritesCount: oldArticle.favoritesCount + 1 };
+      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+      return {
+        ...state,
+        loader: false,
+        error: false,
+        article: newArticle,
+        articles: newArticles
+      }
+    }
+      
+
+
     case 'ADD_FAVORITE_ARTICLE_SUCCESS': {
       const { articles } = state;
       // console.log('articles: ', articles);
+      console.log('action.payload in reduser: ', action.payload);
       const { favorited, favoritesCount, slug } = action.payload;
       /* console.log('item[0]: ', articles[0].slug); */
       const index = articles.findIndex((item) => item.slug === slug);
@@ -186,6 +212,24 @@ const reducer = (state = initialState, action) => {
         articles: newArticles
       }
     }
+
+    case 'UNFAVORITE_ARTICLE_REQUEST': {
+      const { articles } = state;
+      const slug = action.payload;
+      const index = articles.findIndex((item) => item.slug === slug);
+      const oldArticle = articles[index];
+      const newArticle = { ...oldArticle, favorited: false, favoritesCount: oldArticle.favoritesCount - 1 };
+      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+      return {
+        ...state,
+        loader: false,
+        error: false,
+        article: newArticle,
+        articles: newArticles
+      }
+    }
+
+
 
     case 'UNFAVORITE_ARTICLE_SUCCESS': {
       const { articles } = state;
