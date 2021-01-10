@@ -17,7 +17,7 @@ const EditArticle = (props) => {
     dispatch(getArticle(props.slug));
     // eslint-disable-next-line
   }, []);
-  const article = useSelector((state) => state.article);
+  const { article } = useSelector((state) => state.articlesReducer);
 
   return (
     <div>

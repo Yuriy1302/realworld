@@ -14,7 +14,7 @@ const HeaderTab = (props) => {
   const hasUser = localStorage.getItem('localUser');
 
   const dispatch = useDispatch();
-  const content = useSelector((state) => state);
+  const content = useSelector((state) => state.userReducer);
   
   /* const { token } = props; */
   const token = localStorage.getItem('token');

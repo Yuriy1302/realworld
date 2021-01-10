@@ -11,7 +11,10 @@ import { authentication, resetErrorsResponse } from '../../actions';
 import './SignIn.css';
 
 const SignIn = (props) => {
-  const { isLoggedIn, errorsResponse} = useSelector((state) => state);
+  const { errorsResponse } = useSelector((state) => state.genericReducer);
+  
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
+  console.log('login: ', isLoggedIn);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm();
   

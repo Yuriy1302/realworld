@@ -41,7 +41,8 @@ const MyArticles = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { loader, articles } = state;
+  const { loader } = state.genericReducer;
+  const { articles } = state.articlesReducer;
   return {
     loader,
     articles,

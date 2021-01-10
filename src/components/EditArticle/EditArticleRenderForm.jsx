@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { withRouter } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';

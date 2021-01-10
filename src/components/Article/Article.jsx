@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import MarkdownView from 'react-showdown';
 import { Popconfirm, notification } from 'antd';
@@ -26,7 +26,7 @@ const articleRender = (article, isLoggedIn, username, onChangFavoriteArticle, co
     tagList,
     author
   } = article;
-  console.log('favorited: ', favorited);
+  /* console.log('favorited: ', favorited); */
   const token = localStorage.getItem('token');
 
   /* const confirm = () => {
@@ -102,7 +102,7 @@ const Article = (props) => { // Здесь передается идентифи
   const { slug, article, loader, isLoggedIn, username } = props;
   const dispatch = useDispatch();
   
-  console.log('article in Article: ', article);
+  // console.log('article in Article: ', article);
 
   const confirm = (slug, token, username) => {
     notification.success({
@@ -139,7 +139,7 @@ const Article = (props) => { // Здесь передается идентифи
     return <Spiner />
   }
   
-  console.log('favorited in Article: ', article?.favorited);
+  /* console.log('favorited in Article: ', article?.favorited); */
 
   return (
     article ? articleRender(article, isLoggedIn, username, onChangFavoriteArticle, confirm, props) : null
@@ -147,13 +147,16 @@ const Article = (props) => { // Здесь передается идентифи
 };
 
 const mapStateToProps = (state) => {
-  const { article, loader, isLoggedIn, user } = state;
+  const { loader } = state.genericReducer;
+  const { article } = state.articlesReducer;
+  const { isLoggedIn, user } = state.userReducer;
   return {
-    article,
     loader,
+    article,
     isLoggedIn,
     username: user.username
   };
 }
 
-export default connect(mapStateToProps, { getArticle, deleteArticle })(withRouter(Article));
+/* export default connect(mapStateToProps, { getArticle, deleteArticle })(withRouter(Article)); */
+export default connect(mapStateToProps)(withRouter(Article));

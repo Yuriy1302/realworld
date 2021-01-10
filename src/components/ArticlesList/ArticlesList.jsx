@@ -16,7 +16,7 @@ const ArticlesList = (props) => {
   useEffect(() => {
       getArticlesList(0, token);
       // eslint-disable-next-line
-  }, [getArticlesList]);
+  }, [getArticlesList]); /* !!! Попробовать сделать return для размонтирования */
 
   const handlePage = (page) => {
     togglePage(page);
@@ -53,14 +53,23 @@ const ArticlesList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { loader, togglePage, articles, pageCurrent, articlesCount } = state;
+  /* const { loader, togglePage, articles, pageCurrent, articlesCount } = state; */
+  const { genericReducer, articlesReducer } = state;
+  const { loader, pageCurrent } = genericReducer;
+  const { articles, articlesCount } = articlesReducer;
   return {
     loader,
-    togglePage,
-    articles,
+    /* togglePage, */
     pageCurrent,
+    articles,    
     articlesCount
   };
 };
 
-export default connect(mapStateToProps, {getArticlesList, togglePage})(ArticlesList);
+const mapDispatchToProps = (dispatch) => ({
+  getArticlesList: (page, token) => dispatch(getArticlesList(page, token)),
+  togglePage: (page) => dispatch(togglePage(page)),
+});
+
+/* export default connect(mapStateToProps, {getArticlesList, togglePage})(ArticlesList); */
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlesList);

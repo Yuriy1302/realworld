@@ -23,7 +23,7 @@ const EditProfile = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { user, currentUser, isLoggedIn } = state;
+  const { user, currentUser, isLoggedIn } = state.userReducer;
   return { user, currentUser, isLoggedIn };
 }
 
@@ -110,4 +110,4 @@ const ProfileForm = (props) => {
   );
 }
 
-export default connect(mapStateToProps, { updateNewData })(EditProfile);
+export default connect(mapStateToProps)(EditProfile);

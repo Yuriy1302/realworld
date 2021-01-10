@@ -10,7 +10,8 @@ import { registration } from '../../actions';
 import './SignUp.css';
 
 const SignUp = (props) => {
-  const { isLoggedIn, serverErrors } = useSelector((state) => state);
+  const { serverErrors } = useSelector((state) => state.genericReducer);
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
 
   const dispatch = useDispatch();
   

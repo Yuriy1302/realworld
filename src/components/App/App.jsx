@@ -61,7 +61,7 @@ const App = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { loader, error } = state;
+  const { loader, error } = state.genericReducer;
   return {
     loader,
     error
@@ -69,6 +69,7 @@ const mapStateToProps = (state) => {
 }
 
 App.propTypes = {
+  loader: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired
 }
 
