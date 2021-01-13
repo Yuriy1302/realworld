@@ -1,11 +1,3 @@
-import { getArticlesList } from './articles';
-
-export { getArticlesList };
-
-
-
-
-
 export const logoutAction = () => ({ type: 'LOG_OUT' });
 export const loginAction = () => ({ type: 'LOG_IN' });
 export const resetErrorsResponse = () => ({ type: 'RESET_ERRORS_RESPONSE' });
@@ -16,7 +8,7 @@ export const deleteLike = () => ({ type: 'DELETE_LIKE' });
 
 
 /* Запрос списка статей */
-/* export const getArticlesList = (offset = 0, token) => {
+export const getArticlesList = (offset = 0, token) => {
   return async (dispatch) => {
     dispatch({
       type: 'GET_ARTICLES_REQUEST'
@@ -50,7 +42,7 @@ export const deleteLike = () => ({ type: 'DELETE_LIKE' });
         console.error('Возникла ошибки: ', error);
     };
   }
-}; */
+};
 
 /* Запрос списка СВОИХ статей */
 export const getMyselfArticles = (author, offset = 0) => {

@@ -14,7 +14,9 @@ const ArticlesList = (props) => {
   const { getArticlesList, togglePage,
           loader, articles, pageCurrent, articlesCount } = props;
   useEffect(() => {
+      if (articles.length !== 0) return false;
       getArticlesList(0, token);
+      
       // eslint-disable-next-line
   }, [getArticlesList]); /* !!! Попробовать сделать return для размонтирования */
 

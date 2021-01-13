@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { notification } from 'antd';
 
 
 import Like from './Like';
@@ -13,7 +14,7 @@ import './ArticlePreview.css';
 import userImg from '../../images/user.svg';
 
 const ArticlePreview = (props) => {
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
   const { article, pageCurrent } = props;
@@ -27,7 +28,7 @@ const ArticlePreview = (props) => {
     slug,
     author } = article;
   
-  console.log('favorited in preview: ', favorited);
+  // console.log('favorited in preview: ', favorited);
 
   if (author === undefined) {
     return <ErrorIndicator />
@@ -40,6 +41,11 @@ const ArticlePreview = (props) => {
     if (isLoggedIn && !favorited) {
       const token = localStorage.getItem('token');
       dispatch(setFavoriteArticle(slug, token, pageCurrent * 20 - 20));
+    } else if (!isLoggedIn && !favorited) {
+      notification.warning({
+        message: "Login or register to follow articles",
+        duration: 2
+      });
     }
 
     if (isLoggedIn && favorited) {
