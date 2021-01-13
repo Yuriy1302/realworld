@@ -13,17 +13,22 @@ const ArticlesList = (props) => {
   const token = localStorage.getItem('token');
   const { getArticlesList, togglePage,
           loader, articles, pageCurrent, articlesCount } = props;
-  useEffect(() => {
-      if (articles.length !== 0) return false;
-      getArticlesList(0, token);
-      
-      // eslint-disable-next-line
-  }, [getArticlesList]); /* !!! Попробовать сделать return для размонтирования */
-
+  
   const handlePage = (page) => {
+    console.log(page, ' - ', pageCurrent);
     togglePage(page);
     token ? getArticlesList(page * 20 - 20, token) : getArticlesList(page * 20 - 20, null);
   };
+  
+  useEffect(() => {
+      //if (articles.length !== 0) return false;
+      console.log('pageCurrent: ', pageCurrent);
+      getArticlesList(pageCurrent * 20 - 20, token);
+      
+      // eslint-disable-next-line
+  }, []); /* !!! Попробовать сделать return для размонтирования */
+
+  
   
   return (
     <div className="articles-list">

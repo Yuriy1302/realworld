@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { logoutAction, updateUser } from '../../actions';
+import { logoutAction, restartUser } from '../../actions';
 
 import userImg from '../../images/user.svg';
 
@@ -21,7 +21,7 @@ const HeaderTab = (props) => {
 
   const updateHeader = () => {
     if (hasUser) {
-      dispatch(updateUser(token));
+      dispatch(restartUser(token));
     }
   }
 

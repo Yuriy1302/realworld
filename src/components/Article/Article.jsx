@@ -9,7 +9,7 @@ import uniqueid from 'lodash.uniqueid';
 import Spiner from '../Spiner';
 import Like from '../ArticlePreview/Like';
 
-import { getArticle, deleteArticle, setFavoriteArticle, deleteFavoriteArticle } from '../../actions';
+import { getSingleArticle, deleteArticle, setFavoriteArticle, deleteFavoriteArticle } from '../../actions';
 
 import './Article.css';
 
@@ -129,7 +129,7 @@ const Article = (props) => { // Здесь передается идентифи
   useEffect(() => {
     /* async */ function fetchData() {
       const token = localStorage.getItem('token');
-      dispatch(getArticle(slug, token));
+      dispatch(getSingleArticle(slug, token));
     }
     fetchData();
     // eslint-disable-next-line  
@@ -158,5 +158,5 @@ const mapStateToProps = (state) => {
   };
 }
 
-/* export default connect(mapStateToProps, { getArticle, deleteArticle })(withRouter(Article)); */
+/* export default connect(mapStateToProps, { getSingleArticle, deleteArticle })(withRouter(Article)); */
 export default connect(mapStateToProps)(withRouter(Article));

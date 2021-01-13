@@ -54,8 +54,18 @@ const ArticlePreview = (props) => {
     }
   }
 
+  const cropText = (text, size) => {
+    let newText = '';
+    const endCharacter = '...';
   
+    if (text.length > size) {
+      newText = text.substr(0, size);
+      return newText + endCharacter;
+    }
 
+    return text;
+  }
+  
   return (
     <div className="article-item">
       <div className="article-item__header">
@@ -63,7 +73,7 @@ const ArticlePreview = (props) => {
             <div className="article-item__info">
               <h2 className="article-item__title">
                 <Link to={`/articles/${slug}`}>
-                  {title}
+                  {cropText(title, 50)}
                 </Link>
               </h2>
               <Like favorited={favorited}
@@ -73,7 +83,7 @@ const ArticlePreview = (props) => {
             <div className="article-item__tags">
             {
               tagList.length !== 0
-                ? tagList.map((tag, index) => <span className="tag" key={index}>{tag}</span>)
+                ? tagList.map((tag, index) => <span className="tag" key={index}>{cropText(tag, 15)}</span>)
                 : null
             }
             </div>
@@ -91,7 +101,7 @@ const ArticlePreview = (props) => {
           </div>
       </div>
       <div className="article-item__annotation">
-        {description}
+        {cropText(description, 120)}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Spiner from '../Spiner';
 import EditArticleRenderForm from './EditArticleRenderForm';
 
-import { getArticle } from '../../actions';
+import { getSingleArticle } from '../../actions';
 
 import './EditArticle.css';
 
@@ -14,7 +14,7 @@ const EditArticle = (props) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getArticle(props.slug));
+    dispatch(getSingleArticle(props.slug));
     // eslint-disable-next-line
   }, []);
   const { article } = useSelector((state) => state.articlesReducer);

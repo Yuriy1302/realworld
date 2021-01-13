@@ -1,3 +1,20 @@
+import {
+  GET_ARTICLES_SUCCESS,
+  GET_ARTICLES_FAILURE,
+
+  GET_SINGLE_ARTICLE_SUCCESS,
+  GET_SINGLE_ARTICLE_FAILURE,
+
+  ADD_FAVORITE_ARTICLE_REQUEST,
+  ADD_FAVORITE_ARTICLE_SUCCESS,
+  // ADD_FAVORITE_ARTICLE_FAILURE,
+
+  UNFAVORITE_ARTICLE_REQUEST,
+  UNFAVORITE_ARTICLE_SUCCESS,
+  // UNFAVORITE_ARTICLE_FAILURE,
+
+} from '../actions/articles';
+
 const initialState = {
   articles: [],
   articlesCount: null,
@@ -7,26 +24,32 @@ const initialState = {
 const articlesReducer = (state = initialState, action) => {
   switch(action.type) {
 
-    case 'GET_ARTICLES_SUCCESS':
+    case GET_ARTICLES_SUCCESS:
       return {
         ...state,
         articles: action.articles,
         articlesCount: action.articlesCount,       
       };
 
-    case 'GET_ARTICLES_FAILURE':
+    case GET_ARTICLES_FAILURE:
       return {
         ...state,
         articles: [],
       };
 
-    case 'GET_ONE_ARTICLE_SUCCESS':
+    case GET_SINGLE_ARTICLE_SUCCESS:
       return {
         ...state,
         article: action.article
       };
-    
-    case 'ADD_FAVORITE_ARTICLE_REQUEST': {
+
+    case GET_SINGLE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        article: null,
+      };
+
+    case ADD_FAVORITE_ARTICLE_REQUEST: {
       const { articles } = state;
       const slug = action.payload;
       const index = articles.findIndex((item) => item.slug === slug);
@@ -40,7 +63,7 @@ const articlesReducer = (state = initialState, action) => {
       }
     }
       
-    case 'ADD_FAVORITE_ARTICLE_SUCCESS': {
+    case ADD_FAVORITE_ARTICLE_SUCCESS: {
       const { articles } = state;
       const { favorited, favoritesCount, slug } = action.payload;
       const index = articles.findIndex((item) => item.slug === slug);
@@ -54,7 +77,7 @@ const articlesReducer = (state = initialState, action) => {
       }
     }
 
-    case 'UNFAVORITE_ARTICLE_REQUEST': {
+    case UNFAVORITE_ARTICLE_REQUEST: {
       const { articles } = state;
       const slug = action.payload;
       const index = articles.findIndex((item) => item.slug === slug);
@@ -68,7 +91,7 @@ const articlesReducer = (state = initialState, action) => {
       }
     }
 
-    case 'UNFAVORITE_ARTICLE_SUCCESS': {
+    case UNFAVORITE_ARTICLE_SUCCESS: {
       const { articles } = state;
       const { favorited, favoritesCount, slug } = action.payload;
       const index = articles.findIndex((item) => item.slug === slug);

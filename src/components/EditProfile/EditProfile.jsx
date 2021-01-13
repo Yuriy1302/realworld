@@ -5,7 +5,7 @@ import { notification } from 'antd';
 
 import Spiner from '../Spiner';
 
-import { updateNewData } from '../../actions';
+import { updateUser } from '../../actions';
 
 import './EditProfile.css';
 
@@ -47,7 +47,7 @@ const ProfileForm = (props) => {
         newData[item] = data[item];
       }
     }
-    dispatch(updateNewData(token, newData));
+    dispatch(updateUser(token, newData));
     notification.success({
       message: "Correction of profile saved",
       duration: 2

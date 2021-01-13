@@ -1,3 +1,51 @@
+import {
+  GET_ARTICLES_REQUEST,
+  GET_ARTICLES_SUCCESS,
+  GET_ARTICLES_FAILURE,
+
+  GET_SINGLE_ARTICLE_REQUEST,
+  GET_SINGLE_ARTICLE_SUCCESS,
+  GET_SINGLE_ARTICLE_FAILURE,
+
+  CREATE_ARTICLE_REQUEST,
+  CREATE_ARTICLE_FAILURE,
+
+  UPDATE_ARTICLE_REQUEST,
+  UPDATE_ARTICLE_FAILURE,
+  
+} from '../actions/articles';
+
+import {
+  REGISTRATION_REQUEST,
+  REGISTRATION_SUCCESS,
+  REGISTRATION_FAILURE,
+  REGISTRATION_ERRORS,
+
+  AUTHENTICATION_REQUEST,
+  AUTHENTICATION_SUCCESS,
+  AUTHENTICATION_FAILURE,
+  AUTHENTICATION_SUCCESS_ERRORS,
+
+  RESTART_USER_REQUEST,
+  RESTART_USER_SUCCESS,
+  RESTART_USER_FAILURE,
+
+  GET_CURRENT_USER_REQUEST,
+  GET_CURRENT_USER_SUCCESS,
+
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_FAILURE,
+
+
+} from '../actions/user';
+
+import {
+  TOGGLE_PAGE,
+  RESET_ERRORS_RESPONSE,
+
+
+} from '../actions/generic';
+
 const initialState = {
   loader: false,
   error: false,
@@ -8,156 +56,187 @@ const initialState = {
 
 const genericReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'RESET_ERRORS_RESPONSE':
-      return {
-        ...state,
-        errorsResponse: null
-      }
-    
-    case 'UPDATE_USER_REQUEST':
+    case GET_ARTICLES_REQUEST:
       return {
         ...state,
         loader: true,
         error: false
+      };
+      
+    case GET_ARTICLES_SUCCESS:
+      return {
+        ...state,
+        loader: false,
+        error: false,        
+      };
+  
+    case GET_ARTICLES_FAILURE:
+      return {
+        ...state,
+        loader: false,
+        error: true
+      };
+    
+    case GET_SINGLE_ARTICLE_REQUEST:
+      return {
+        ...state,
+        loader: true
       }
+
+    case GET_SINGLE_ARTICLE_SUCCESS:
+      return {
+        ...state,
+        loader: false,
+      };
+
+    case GET_SINGLE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        loader: false,
+        error: true
+      };
+
+    case CREATE_ARTICLE_REQUEST:
+      return {
+        ...state,
+        loader: true
+      };
+
+    case CREATE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        loader: false,
+        error: true
+      };
     
-    case 'GET_ARTICLES_REQUEST':
-    return {
-      ...state,
-      loader: true,
-      error: false
-    };
-    
-  case 'GET_ARTICLES_SUCCESS':
-    return {
-      ...state,
-      loader: false,
-      error: false,        
-    };
+    case UPDATE_ARTICLE_REQUEST:
+      return {
+        ...state,
+        loader: true
+      };
 
-  case 'GET_ARTICLES_FAILURE':
-    return {
-      ...state,
-      loader: false,
-      error: true
-    };
+    case UPDATE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        loader: false,
+        error: true
+      };
 
-  case 'TOGGLE_PAGE':
-    return {
-      ...state,
-      pageCurrent: action.payload
-    };
-
-  case 'GET_ONE_ARTICLE_REQUEST':
+  /* Регистрация */
+  case REGISTRATION_REQUEST:
     return {
       ...state,
       loader: true
-    }
-  case 'GET_ONE_ARTICLE_SUCCESS':
-    return {
-      ...state,
-      loader: false,
     };
-
-    /* Регистрация */
-  case 'REGISTRATION_REQUEST':
-    return {
-      ...state,
-      loader: true
-    };
-  case 'REGISTRATION_SUCCESS':
+  case REGISTRATION_SUCCESS:
     return {
       ...state,
       loader: false,
       serverErrors: null,
     };
-  case 'REGISTRATION_FAILURE':
+  case REGISTRATION_FAILURE:
     return {
       ...state,
       loader: false,
       error: true
     }
-
-  case 'REGISTRATION_ERRORS':
+  
+  case REGISTRATION_ERRORS:
     return {
       ...state,
       loader: false,
       error: false,
       serverErrors: action.payload ? action.payload : {} // ???
     }
-  /* Аутентификация */
-  case 'AUTHENTICATION_REQUEST':
+
+/* Аутентификация */
+case AUTHENTICATION_REQUEST:
+  return {
+    ...state,
+    loader: true
+  }
+
+case AUTHENTICATION_SUCCESS:
+  return {
+    ...state,
+    loader: false
+  }
+
+case AUTHENTICATION_SUCCESS_ERRORS:
+  return {
+    ...state,
+    loader: false,
+    errorsResponse: action.payload.errors
+  }
+
+case AUTHENTICATION_FAILURE:
+  return {
+    ...state,
+    loader: false,
+    error: true
+  }
+
+  case RESTART_USER_REQUEST:
     return {
       ...state,
-      loader: true
+      loader: true,
+      error: false
     }
-
-  case 'AUTHENTICATION_SUCCESS':
-    return {
-      ...state,
-      loader: false
-    }
-
-  case 'AUTHENTICATION_SUCCESS_ERRORS':
+  
+  case RESTART_USER_SUCCESS:
     return {
       ...state,
       loader: false,
-      errorsResponse: action.payload.errors
+      error: false
     }
-
-  case 'AUTHENTICATION_FAILURE':
+  
+  case RESTART_USER_FAILURE:
     return {
       ...state,
       loader: false,
       error: true
     }
 
-  case 'GET_CURRENT_USER_REQUEST':
+  case GET_CURRENT_USER_REQUEST:
     return {
       ...state,
       loader: true,
       error: false
     }
 
-  case 'GET_CURRENT_USER_SUCCESS':
+  case GET_CURRENT_USER_SUCCESS:
     return {
       ...state,
       loader: false,
       error: false
     }
-
-
-    case 'ADD_FAVORITE_ARTICLE_REQUEST': {
-      return {
-        ...state,
-        loader: false,
-        error: false,
-      }
+    
+  case UPDATE_USER_REQUEST:
+    return {
+      ...state,
+      loader: true,
+    }
+  
+  case UPDATE_USER_FAILURE:
+    return {
+      ...state,
+      loader: false,
+      error: true
     }
 
-    case 'ADD_FAVORITE_ARTICLE_SUCCESS': {
-      return {
-        ...state,
-        loader: false,
-        error: false,
-      }
-    }
 
-    case 'UNFAVORITE_ARTICLE_REQUEST': {
+    case TOGGLE_PAGE:
       return {
         ...state,
-        loader: false,
-        error: false
-      }
-    }
+        pageCurrent: action.payload
+      };
 
-    case 'UNFAVORITE_ARTICLE_SUCCESS': {
+    case RESET_ERRORS_RESPONSE:
       return {
         ...state,
-        loader: false,
-        error: false
+        errorsResponse: null
       }
-    }
+
 
     default:
       return state;
