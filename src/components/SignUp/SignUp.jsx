@@ -51,7 +51,6 @@ const SignUp = (props) => {
         { errors.username?.type === 'required' && <span className="text-danger">The field must be filled</span>}
         { errors.username?.type === 'minLength' && <span className="text-danger">Needs to be at least 3 characters</span>}
         { errors.username?.type === 'maxLength' && <span className="text-danger">Must be no more than 20 characters long</span>}
-        {/* { serverErrors && serverErrors.hasOwnProperty('username') && <span className="text-danger">{serverErrors.username[0][0].toUpperCase() + serverErrors.username[0].slice(1)}</span>} */}
         { serverErrors && 'username' in serverErrors && <span className="text-danger">{serverErrors.username[0][0].toUpperCase() + serverErrors.username[0].slice(1)}</span>}
 
 
@@ -69,9 +68,7 @@ const SignUp = (props) => {
         />
         { errors.email?.type === 'required' && <span className="text-danger">The field must be filled</span> }
         { errors.email?.type === 'pattern' && <span className="text-danger">Needs to enter a valid address</span> }
-        {/* { serverErrors && serverErrors.hasOwnProperty('email') && <span className="text-danger">{serverErrors.email[0][0].toUpperCase() + serverErrors.email[0].slice(1)}</span>} */}
         { serverErrors && ('email' in serverErrors) && <span className="text-danger">{serverErrors.email[0][0].toUpperCase() + serverErrors.email[0].slice(1)}</span>}
-
 
         <label htmlFor="password" className="label">Password</label>
         <input type="password"

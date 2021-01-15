@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { notification } from 'antd';
 
-
 import Like from './Like';
 import ErrorIndicator from '../ErrorIndicator';
 
@@ -17,30 +16,21 @@ const ArticlePreview = (props) => {
   const { isLoggedIn } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
-  const { article, pageCurrent } = props;
-  const {
-    title,
-    description,
-    tagList,
-    createdAt,
-    favorited,
-    favoritesCount,
-    slug,
-    author } = article;
+  const { article } = props;
+  const { title, description,
+          tagList, createdAt, favorited,
+          favoritesCount, slug, author } = article;
   
-  // console.log('favorited in preview: ', favorited);
-
   if (author === undefined) {
     return <ErrorIndicator />
   }
   
   const { username, image } = author;
-  /* const token = localStorage.getItem('token'); */
-
+  
   const onChangFavoriteArticle = () => {
     if (isLoggedIn && !favorited) {
       const token = localStorage.getItem('token');
-      dispatch(setFavoriteArticle(slug, token, pageCurrent * 20 - 20));
+      dispatch(setFavoriteArticle(slug, token));
     } else if (!isLoggedIn && !favorited) {
       notification.warning({
         message: "Login or register to follow articles",
@@ -50,7 +40,7 @@ const ArticlePreview = (props) => {
 
     if (isLoggedIn && favorited) {
       const token = localStorage.getItem('token');
-      dispatch(deleteFavoriteArticle(slug, token, pageCurrent * 20 - 20));
+      dispatch(deleteFavoriteArticle(slug, token));
     }
   }
 
@@ -65,16 +55,14 @@ const ArticlePreview = (props) => {
 
     return text;
   }
-  
+
   return (
     <div className="article-item">
       <div className="article-item__header">
           <div className="article-item__block">
             <div className="article-item__info">
               <h2 className="article-item__title">
-                <Link to={`/articles/${slug}`}>
-                  {cropText(title, 50)}
-                </Link>
+                <Link to={`/articles/${slug}`}>{cropText(title, 50)}</Link>
               </h2>
               <Like favorited={favorited}
                     favoritesCount={favoritesCount}

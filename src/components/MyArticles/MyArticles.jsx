@@ -20,8 +20,6 @@ const MyArticles = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  
-
   if (!articles.length) {
     return (
       <div className="empty-data">
@@ -35,7 +33,6 @@ const MyArticles = (props) => {
       <div>
         { loader ? <Spiner /> : articles.map((article) => <ArticlePreview key={article.slug} article={article} />) }
       </div>
-      {/* Pagination */}
     </div>
   );
 };

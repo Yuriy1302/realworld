@@ -3,10 +3,9 @@ import {
   LOG_OUT,
   REGISTRATION_SUCCESS,
   AUTHENTICATION_SUCCESS,
+  RESTART_USER_SUCCESS,
   GET_CURRENT_USER_SUCCESS,
-
 } from '../actions/user';
-
 
 const initialState = {
   isLoggedIn: false,
@@ -45,6 +44,12 @@ const userReducer = (state = initialState, action) => {
       isLoggedIn: true,
       user: action.payload.user
     }
+  
+  case RESTART_USER_SUCCESS:
+    return {
+      ...state,
+      user: action.payload
+    }
 
   case GET_CURRENT_USER_SUCCESS:
     return {
@@ -53,8 +58,7 @@ const userReducer = (state = initialState, action) => {
     }
 
     default:
-      return state
-
+      return state;
   };
 };
 

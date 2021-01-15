@@ -12,9 +12,7 @@ import './SignIn.css';
 
 const SignIn = (props) => {
   const { errorsResponse } = useSelector((state) => state.genericReducer);
-  
   const { isLoggedIn } = useSelector((state) => state.userReducer);
-  console.log('login: ', isLoggedIn);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm();
   
@@ -24,17 +22,6 @@ const SignIn = (props) => {
       duration: 2
     });
     dispatch(resetErrorsResponse());
-    /* return (
-      <div className="sign-in-accaunt">
-        <h3>Email or password is invalid</h3>
-        <button type="button"
-                className="btn btn-primary"
-                onClick={() => dispatch(resetErrorsResponse())}
-        >
-          Try again
-        </button>
-      </div>
-    ) */
   }
 
   if (isLoggedIn) {

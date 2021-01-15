@@ -23,7 +23,7 @@ export const UNFAVORITE_ARTICLE_REQUEST = 'UNFAVORITE_ARTICLE_REQUEST';
 export const UNFAVORITE_ARTICLE_SUCCESS = 'UNFAVORITE_ARTICLE_SUCCESS';
 export const UNFAVORITE_ARTICLE_FAILURE = 'UNFAVORITE_ARTICLE_FAILURE';
 
-/* Запрос списка статей */
+/* Запрос общего списка статей */
 export const getArticlesList = (offset = 0, token) => {
   return async (dispatch) => {
     dispatch({
@@ -37,7 +37,9 @@ export const getArticlesList = (offset = 0, token) => {
           'Authorization': "Token " + token
         }
       } : {};
+
       const response = await fetch(`https://conduit.productionready.io/api/articles?offset=${offset}`, options);
+      
       if (response === null) {
         throw console.log('ERROR!!!. ', response);
       }
@@ -46,8 +48,10 @@ export const getArticlesList = (offset = 0, token) => {
       
       dispatch({
         type: GET_ARTICLES_SUCCESS,
-        articles: result.articles,
-        articlesCount: result.articlesCount
+        payload: {
+          articles: result.articles,
+          articlesCount: result.articlesCount
+        }
       });
     } catch(error) {
         dispatch({
@@ -66,16 +70,19 @@ export const getMyselfArticles = (author, offset = 0) => {
     });
     try {
       const response = await fetch(`https://conduit.productionready.io/api/articles?author=${author}&offset=${offset}`)
+      
       if (response === null) {
         throw console.log('ERROR!!!. ', response);
       }
+      
       const result = await response.json();
-      
-      
+            
       dispatch({
         type: GET_ARTICLES_SUCCESS,
-        articles: result.articles, // исправить - объеденить в payload
-        articlesCount: result.articlesCount
+        payload: {
+          articles: result.articles,
+          articlesCount: result.articlesCount
+        }
       });
     } catch(error) {
         dispatch({
@@ -104,7 +111,7 @@ export const getSingleArticle = (slug, token) => {
       const result = await response.json();
       dispatch({
         type: GET_SINGLE_ARTICLE_SUCCESS,
-        article: result.article,
+        payload: result.article,
       });
     } catch(error) {
         dispatch({
@@ -118,12 +125,10 @@ export const getSingleArticle = (slug, token) => {
 /* Создание статьи */
 export const createArticle = (newArticle, token) => {
   return async (dispatch) => {
-    
     dispatch({
       type: CREATE_ARTICLE_REQUEST // Нет обработки экшена в редьюсере
     });
     try {
-      
       const response = await fetch(
         'https://conduit.productionready.io/api/articles',
         {
@@ -142,12 +147,12 @@ export const createArticle = (newArticle, token) => {
           })
         }
       );
+      
       if (response === null) throw console.log("Oops! ", response.json())
        
-      // ????????????????? А какое действие при положительном результате
+      // Какое действие при положительном результате
 
     } catch(error) {
-      // Действие на случай перехвата ошибки
       dispatch({
         type: CREATE_ARTICLE_FAILURE
       });
@@ -180,10 +185,10 @@ export const updateArticle = (token, slug, newData) => {
       await dispatch(getSingleArticle(slug));
               
     } catch(error) {
-        console.error('Возникла ошибка: ', error);
         dispatch({
           type: UPDATE_ARTICLE_FAILURE
         });
+        console.error('Возникла ошибка: ', error);
     };
   }
 };
@@ -204,7 +209,6 @@ export const deleteArticle = (slug, token, author) => {
           }
         }
       );
-      // const result = await response.json();
       dispatch(getMyselfArticles(author));
     } catch(error) {
         dispatch({
@@ -215,10 +219,9 @@ export const deleteArticle = (slug, token, author) => {
   }
 };
 
-/* Добавление в избранное */
-export const setFavoriteArticle = (slug, token, offset) => {
+/* Добавление статьи в избранное */
+export const setFavoriteArticle = (slug, token) => {
   return async (dispatch) => {
-    //console.log('Slug in action', slug);
     dispatch({
       type: ADD_FAVORITE_ARTICLE_REQUEST,
       payload: slug
@@ -235,28 +238,25 @@ export const setFavoriteArticle = (slug, token, offset) => {
         }
       );
       const result = await response.json();
-      console.log('result in action favorited: ', result);
-      /* Диспатч на обновление списка статей ? */
-      
       dispatch({
         type: ADD_FAVORITE_ARTICLE_SUCCESS,
         payload: result.article,
       });
-      /* dispatch(getArticlesList(offset)); */
+
+      // Диспатч на обновление списка статей? - dispatch(getArticlesList(offset));
+
     } catch(error) {
-        console.error('Возникла ошибка: ', error);
         dispatch({
           type: ADD_FAVORITE_ARTICLE_FAILURE // нет редьюсера
         });
+        console.error('Возникла ошибка: ', error);
     };
   }
 };
 
-/* Удалить из избранного */
-export const deleteFavoriteArticle = (slug, token, offset) => {
+/* Удалить статьи из избранного */
+export const deleteFavoriteArticle = (slug, token) => {
   return async (dispatch) => {
-
-
     dispatch({
       type: UNFAVORITE_ARTICLE_REQUEST,
       payload: slug
@@ -273,34 +273,15 @@ export const deleteFavoriteArticle = (slug, token, offset) => {
         }
       );
       const result = await response.json();
-      
-      /* Диспатч на обновление списка статей ? */
-      
       dispatch({
         type: UNFAVORITE_ARTICLE_SUCCESS,
         payload: result.article,
       });
-      /* dispatch(getArticlesList(offset)); */
     } catch(error) {
-        console.error('Возникла ошибка: ', error);
         dispatch({
           type: UNFAVORITE_ARTICLE_FAILURE // нет редьюсера
         });
+        console.error('Возникла ошибка: ', error);
     };
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

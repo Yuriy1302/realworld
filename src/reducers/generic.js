@@ -7,6 +7,10 @@ import {
   GET_SINGLE_ARTICLE_SUCCESS,
   GET_SINGLE_ARTICLE_FAILURE,
 
+  ADD_FAVORITE_ARTICLE_FAILURE,
+
+  UNFAVORITE_ARTICLE_FAILURE,
+
   CREATE_ARTICLE_REQUEST,
   CREATE_ARTICLE_FAILURE,
 
@@ -95,6 +99,21 @@ const genericReducer = (state = initialState, action) => {
         loader: false,
         error: true
       };
+
+    case ADD_FAVORITE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        loader: false,
+        error: true
+      };
+    
+    case UNFAVORITE_ARTICLE_FAILURE:
+      return {
+        ...state,
+        loader: false,
+        error: true
+      }
+    
 
     case CREATE_ARTICLE_REQUEST:
       return {
@@ -236,7 +255,6 @@ case AUTHENTICATION_FAILURE:
         ...state,
         errorsResponse: null
       }
-
 
     default:
       return state;

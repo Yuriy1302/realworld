@@ -17,24 +17,21 @@ import SignUp from '../SignUp';
 
 const App = (props) => {
   const { error } = props;
-  /* const token = localStorage.getItem('token'); */
-  
+    
   if (error) {
       return <ErrorIndicator />
-    }
+  }
 
   return (
-    <div>
-      
+    <div>    
       <Router>
-        <HeaderTab /* token={token} */ />
+        <HeaderTab />
         <main className="main">
           <Switch>
             <Route path="/" exact component={ArticlesList} />
             <Route path="/my-articles" exact component={MyArticles} />
             <Route path="/sign-in" component={SignIn} />
             <Route path="/sign-up" component={SignUp} />
-            {/* <Route path="/profile" component={EditProfile} /> */}
             <PrivateRoute path="/profile" exact component={EditProfile} />
             <Route
               path="/articles/:slug"
@@ -55,7 +52,6 @@ const App = (props) => {
           </Switch>
         </main>
       </Router>
-      
     </div>
   );
 };
@@ -66,11 +62,11 @@ const mapStateToProps = (state) => {
     loader,
     error
   };
-}
+};
 
 App.propTypes = {
   loader: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired
-}
+};
 
 export default connect(mapStateToProps)(App);

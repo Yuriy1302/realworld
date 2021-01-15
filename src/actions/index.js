@@ -7,8 +7,6 @@ import {
   deleteArticle,
   setFavoriteArticle,
   deleteFavoriteArticle,
-  
-
 } from './articles';
 
 import {
@@ -19,13 +17,11 @@ import {
   restartUser,
   getCurrentUser,
   updateUser,
-
 } from './user';
 
 import {
   togglePage,
   resetErrorsResponse,
-
 } from './generic';
 
 export {
@@ -48,11 +44,6 @@ export {
 
   togglePage,
   resetErrorsResponse,
-
-
-
-
-
 };
 
 

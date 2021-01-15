@@ -15,8 +15,6 @@
 }
 
 .article-item__annotation {
-  /* border: 1px solid slateblue; */
-
   margin-top: 16px;
   margin-right: 240px;
   font-family: Inter;
@@ -29,10 +27,6 @@
 
 .article-body {
   font-family: Inter;
-  /* font-style: normal; */
-  /* font-weight: normal; */
-  /* font-size: 20px; */
-  /* line-height: 28px; */
   color: rgba(0, 0, 0, 0.75);
   margin-top: 25px;
   padding-right: 42px;

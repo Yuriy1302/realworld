@@ -26,7 +26,6 @@
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
-  /* line-height: 28px; */
   text-align: center;
   color: #262626;
 }
@@ -48,7 +47,6 @@
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   padding: 8px 12px;
-
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
@@ -74,7 +72,6 @@
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-  /* letter-spacing: -0.02em; */
   line-height: 22px;
   color: #F5222D;
 }
@@ -89,7 +86,6 @@
   border-radius: 4px;
   height: 40px;
   margin-top: 21px;
-
   font-family: Roboto;
   font-style: normal;
   font-weight: 300;

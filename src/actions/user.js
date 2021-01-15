@@ -31,10 +31,10 @@ export const logoutAction = () => ({
 
 /* Регистрация */
 export const registration = (data) => {
-  
   return async (dispatch) => {
-    dispatch({ type: REGISTRATION_REQUEST });
-    
+    dispatch({
+      type: REGISTRATION_REQUEST
+    });
     try {
       const response = await fetch(
         'https://conduit.productionready.io/api/users',
@@ -52,11 +52,9 @@ export const registration = (data) => {
           })
         }
       );
-      //console.error('Response registration: ', response);
+
       if (!response.ok && response.status === 422) {
-        // console.log('Есть такие данные!!!');
         const errorResult = await response.json();
-        // console.log('errorResult: ', errorResult);
         dispatch({
           type: REGISTRATION_ERRORS,
           payload: errorResult.errors
@@ -65,35 +63,19 @@ export const registration = (data) => {
       }
 
       const result = await response.json();
-      console.log('Result in registration: ', result);
-      
-      
-      /* if (response.ok) { */
-        dispatch({
-          type: REGISTRATION_SUCCESS,
-          payload: result,
-        });
-        dispatch(loginAction());
-        const { username, token } = result.user;
-        /* localStorage.setItem('user', username);
-        localStorage.setItem('token', token); */
-        localStorage.setItem('localUser', JSON.stringify(username));
-        localStorage.setItem('token', token);
-     /*  } else  {
-        dispatch({
-          type: 'REGISTRATION_ERRORS',
-          payload: result
-        });
-        return;
-      } */
-
-
-
+      dispatch({
+        type: REGISTRATION_SUCCESS,
+        payload: result,
+      });
+      dispatch(loginAction());
+      const { username, token } = result.user;
+      localStorage.setItem('localUser', JSON.stringify(username));
+      localStorage.setItem('token', token);
     } catch (error) {
-      console.log("Oops in registration!");
       dispatch({
         type: REGISTRATION_FAILURE
       });
+      console.error("Oops in registration! Error: ", error);
     }
   }
 };
@@ -120,9 +102,8 @@ export const authentication = (userRegister) => {
           })
         }
       );
-      
       const result = await response.json();
-      
+
       if (response.ok) {
         dispatch({
           type: AUTHENTICATION_SUCCESS,
@@ -130,7 +111,6 @@ export const authentication = (userRegister) => {
         });
         dispatch(loginAction());
         const { username, token } = result.user;
-        
         localStorage.setItem('localUser', username);
         localStorage.setItem('token', token);
       } else  {
@@ -140,17 +120,16 @@ export const authentication = (userRegister) => {
         });
         return null;
       }
-      
     } catch(error) {
-        console.error('Возникла ошибка: ', error);
         dispatch({
           type: AUTHENTICATION_FAILURE
         });
+        console.error('Возникла ошибка: ', error);
     };
   }
 };
 
-/* Перезапуск аккаунта, если не было "Log out" */
+/* Перезапуск аккаунта при входе, если пользователь не использовал "Log out" */
 export const restartUser = (token) => {
   return async (dispatch) => {
     dispatch({
@@ -167,20 +146,17 @@ export const restartUser = (token) => {
           },
         },
       );
-      
-      /* console.log('response updateUser: ', response); */
       const result = await response.json();
-      /* console.log('result updateUser: ', result); */
       dispatch({
         type: RESTART_USER_SUCCESS,
-        payload: result,
+        payload: result.user,
       });
       dispatch(loginAction());
     } catch(error) {
-        console.error('Возникла ошибка: ', error);
         dispatch({
           type: RESTART_USER_FAILURE
         });
+        console.error('Возникла ошибка: ', error);
     };
   }
 };
@@ -188,7 +164,9 @@ export const restartUser = (token) => {
 /* Получить текущего пользователя */
 export const getCurrentUser = (token) => {
   return async (dispatch) => {
-    dispatch({ type: GET_CURRENT_USER_REQUEST });
+    dispatch({
+      type: GET_CURRENT_USER_REQUEST
+    });
     try {
       const response = await fetch(
         'https://conduit.productionready.io/api/user',
@@ -201,9 +179,10 @@ export const getCurrentUser = (token) => {
         }
       );
       const result = await response.json();
-      /* console.log('Cuurent in action: ', result);
-      return result.user; */
-      dispatch({ type: GET_CURRENT_USER_SUCCESS, payload: result.user});
+      dispatch({
+        type: GET_CURRENT_USER_SUCCESS,
+        payload: result.user
+      });
     } catch (error) {
       console.log("Oops! Error: ", error);
     }
@@ -230,30 +209,15 @@ export const updateUser = (token, newData) => {
           })
         }
       );
-      
       const result = await response.json();
-      //console.log('Обновление профиля: ', result);
-      /* dispatch(authentication({
-        email: result.user.email,
-        password: result.user.password
-      })); */
       localStorage.setItem('localUser', result.user.username);
       localStorage.setItem('token', result.user.token);
       dispatch(restartUser(result.user.token));
-        /* dispatch(loginAction()); */
-        /* const { username, token } = result.user; */
-        
-        /* localStorage.setItem('localUser', username);
-        localStorage.setItem('token', token); */
-      
-      
     } catch(error) {
-        console.error('Возникла ошибка: ', error);
         dispatch({
           type: UPDATE_USER_FAILURE
         });
+        console.error('Возникла ошибка: ', error);
     };
   }
 };
-
-

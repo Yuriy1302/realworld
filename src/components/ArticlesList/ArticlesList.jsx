@@ -1,6 +1,6 @@
-import { Pagination } from 'antd';
-import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Pagination } from 'antd';
 
 import Spiner from '../Spiner';
 import ArticlePreview from '../ArticlePreview';
@@ -21,15 +21,10 @@ const ArticlesList = (props) => {
   };
   
   useEffect(() => {
-      //if (articles.length !== 0) return false;
-      console.log('pageCurrent: ', pageCurrent);
       getArticlesList(pageCurrent * 20 - 20, token);
-      
       // eslint-disable-next-line
-  }, []); /* !!! Попробовать сделать return для размонтирования */
+  }, []);
 
-  
-  
   return (
     <div className="articles-list">
       <div>
@@ -60,13 +55,11 @@ const ArticlesList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  /* const { loader, togglePage, articles, pageCurrent, articlesCount } = state; */
   const { genericReducer, articlesReducer } = state;
   const { loader, pageCurrent } = genericReducer;
   const { articles, articlesCount } = articlesReducer;
   return {
     loader,
-    /* togglePage, */
     pageCurrent,
     articles,    
     articlesCount
@@ -78,5 +71,4 @@ const mapDispatchToProps = (dispatch) => ({
   togglePage: (page) => dispatch(togglePage(page)),
 });
 
-/* export default connect(mapStateToProps, {getArticlesList, togglePage})(ArticlesList); */
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesList);

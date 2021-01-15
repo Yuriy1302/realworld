@@ -24,12 +24,14 @@ const initialState = {
 const articlesReducer = (state = initialState, action) => {
   switch(action.type) {
 
-    case GET_ARTICLES_SUCCESS:
+    case GET_ARTICLES_SUCCESS: {
+      const { articles, articlesCount } = action.payload;
       return {
         ...state,
-        articles: action.articles,
-        articlesCount: action.articlesCount,       
+        articles,
+        articlesCount,       
       };
+    }
 
     case GET_ARTICLES_FAILURE:
       return {
@@ -40,7 +42,7 @@ const articlesReducer = (state = initialState, action) => {
     case GET_SINGLE_ARTICLE_SUCCESS:
       return {
         ...state,
-        article: action.article
+        article: action.payload
       };
 
     case GET_SINGLE_ARTICLE_FAILURE:

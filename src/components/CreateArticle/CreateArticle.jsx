@@ -15,24 +15,23 @@ const CreateArticle = (props) => {
   const [ title, setTitle ] = useState('');
   const [ description, setDescription ] = useState('');
   const [ body, setBody ] = useState('');
-  
-  
+    
   /* for value of input tag */
   const [ tag, setTag ] = useState('');
   const [ tagsList, setTagsList ] = useState([]);
   const [ includesTagMessage, setIncludesTagMessage ] = useState(false);
   const [ emtyTagMessag, setEmtyTagMessag ] = useState(false);
-
   
   const { register, handleSubmit, errors } = useForm();
   const dispatch = useDispatch();
-
-  /* for value of input tag */
+  
   const onChangeTag = (event) => {
     event.preventDefault();
+    
     if (includesTagMessage) {
       setIncludesTagMessage(false);
     }
+    
     if (emtyTagMessag) {
       setEmtyTagMessag(false);
     }
@@ -40,13 +39,12 @@ const CreateArticle = (props) => {
     setTag(value);
   }
 
-
   const addTag = () => {
-    /* event.preventDefault(); */
     if (tagsList.includes(tag)) {
       setIncludesTagMessage(true);
       return null;
     }
+
     if (tag === '' || tag.trim() === '') {
       setEmtyTagMessag(true);
       setTag('');
@@ -65,9 +63,6 @@ const CreateArticle = (props) => {
     const newTagsList = [ ...tagsList.slice(0, index), ...tagsList.slice(index + 1) ];
     setTagsList(newTagsList);
   }
-
-
-
 
   const onSubmitArticle = async (data) => {
     data.tagsList = tagsList.reverse();
@@ -96,8 +91,6 @@ const CreateArticle = (props) => {
     tag: true,
     'tag-include': includesTagMessage
   });
-
-  
 
   return (
     <div>
@@ -138,7 +131,6 @@ const CreateArticle = (props) => {
                     ref={register({ required: true })}
           />
           { errors.body && <span className="text-danger">The field must be filled</span> }
-
                   
             <label htmlFor="tag" className="label">Tags</label>
             <fieldset>
@@ -147,8 +139,7 @@ const CreateArticle = (props) => {
               <span className={item !== tag ? "tag" : tagClass} key={uniqueId()} onClick={deleteTag}>{item}</span>
             ))}</div>
           }
-            
-              <input type="text"
+            <input type="text"
                     className="input m-right"
                     style={{ width: '300px' }}
                     placeholder="Tag"
@@ -160,25 +151,18 @@ const CreateArticle = (props) => {
                     onKeyDown={(event) => {
                         
                         if (event.key === 'Enter') {
-                          // console.log("You pressed 'Enter' key!");
                           event.preventDefault();
                           addTag();
                         }
                         return false;
                       }
                     }
-
-                   /*  ref={register({
-                      validate: (value) => value.trim().length !== 0
-                    })} */ />
-              {/* { errors.tag && <span style={{ color: 'red', fontSize: '14px' }}>The field cannot be empty</span> } */}
+            />
               <button type="button" onClick={addTag} className="btn-add">Add</button>
               { includesTagMessage && <div className="text-danger">There is such a tag</div> }
               { emtyTagMessag && <div className="text-danger">The tag cannot be empty</div>}
             </fieldset>
 
-
-          
           <button type="submit" className="btn-primary w300">Send</button>        
         </form>
       </div>

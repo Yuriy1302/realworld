@@ -1,5 +1,4 @@
 .header {
-  /* border: 1px solid red; */
   width: 100%;
   height: 80px;
   padding: 22px;
@@ -10,7 +9,6 @@
 }
 
 .header__title {
-  /* font-family: Inter; */
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -31,15 +29,12 @@
 .btn {
   width: 109px;
   height: 51px;
-  /* font-family: Inter; */
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 50px;
   border-radius: 5px;
   cursor: pointer;
-
-  
 }
 
 .btn:nth-child(1) {
@@ -51,15 +46,7 @@
   color: rgba(0, 0, 0, 0.85);
   text-align: center;
   border: 1px solid #ffffff;
-  
 }
-
-/* .header__signin:hover {
-  border: 1px solid #ececec;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-  color: rgba(0, 0, 0, 0.85);
-} */
-
 
 .header__signup {
   background: transparent;
@@ -67,11 +54,6 @@
   text-align: center;
   color: #52C41A;
 }
-
-/* .header__signup:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-  color: #52C41A;
-} */
 
 .btn-create-article {
   width: 112px;
@@ -131,7 +113,3 @@
   line-height: 22px;
   color: #1890FF;
 }
-
-
-
-

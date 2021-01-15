@@ -1,11 +1,9 @@
 .card {
   display: flex;
   flex-direction: column;
-/*   border: 3px solid olivedrab; */
 }
 
 .classErrorMessage {
-  /* border: 1px solid tomato; */
   width: 420px;
   height: auto;
   margin: 0;
@@ -14,15 +12,14 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  /* box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2); */
 }
 
-.classErrorMessage h2 {
+.card-body-title {
   color: #4e4e4e;
   font-family: Roboto, sans-serif;
 }
 
-p {
+.card-body-text {
   color: #4e4e4e;
   font-size: 22px;
 }
@@ -51,8 +48,7 @@ p {
   z-index: 100;
 }
 
-.myShadow1 {
-  /* border: 1px solid red; */
+.shadow1 {
   z-index: 1;
   width: 200px;
   height: 30px;
@@ -63,8 +59,7 @@ p {
   transform: rotate(-3deg);
 }
 
-.myShadow2 {
-  /* border: 1px solid red; */
+.shadow2 {
   z-index: 1;
   width: 200px;
   height: 30px;
