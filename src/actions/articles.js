@@ -68,14 +68,21 @@ export const getMyselfArticles = (author, offset = 0) => {
     dispatch({
       type: GET_ARTICLES_REQUEST
     });
+
+    console.log('author in action: ', author);
+
     try {
       const response = await fetch(`https://conduit.productionready.io/api/articles?author=${author}&offset=${offset}`)
       
       if (response === null) {
         throw console.log('ERROR!!!. ', response);
       }
+
+      console.log('response in action: ', await response);
       
       const result = await response.json();
+
+      console.log('result in action: ', await result);
             
       dispatch({
         type: GET_ARTICLES_SUCCESS,

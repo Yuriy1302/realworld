@@ -15,8 +15,11 @@ const MyArticles = (props) => {
   const { loader, articles } = props;
   const author = localStorage.getItem('localUser');
 
+  console.log(author);
+  console.log(articles);
+
   useEffect(() => {
-    dispatch(getMyselfArticles(author));
+    dispatch(getMyselfArticles(author, ));
     // eslint-disable-next-line
   }, []);
 
@@ -51,4 +54,4 @@ MyArticles.propTypes = {
   loader: PropTypes.bool.isRequired,
 }
 
-export default connect(mapStateToProps, { getMyselfArticles })(MyArticles);
+export default connect(mapStateToProps)(MyArticles);
