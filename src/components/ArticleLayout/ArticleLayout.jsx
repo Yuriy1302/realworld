@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { notification } from 'antd';
 
 import Spiner from '../Spiner';
-import ArticleRender from './ArticleRender';
+import Article from './Article';
 
 import {
   getSingleArticle,
@@ -12,12 +12,15 @@ import {
   setFavoriteArticle,
   deleteFavoriteArticle } from '../../actions';
 
-import './Article.css';
+import './ArticleLayout.css';
 
 
 
-const Article = (props) => {
-  const { slug, article, loader, isLoggedIn, username } = props;
+const ArticleLayout = (props) => {
+  const { slug } = props;
+  const { loader } = useSelector((state) => state.genericReducer);
+  const { article } = useSelector((state) => state.articlesReducer);
+  const { isLoggedIn, user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
   const confirm = (slug, token, username) => {
@@ -27,6 +30,17 @@ const Article = (props) => {
     });
     dispatch(deleteArticle(slug, token, username));
     props.history.push(`/my-articles`);
+  }
+
+  const cancel = () => {
+    notification.info({
+      message: "Canceled",
+      duration: 2
+    });
+  }
+
+  const onClickEdit = (slug) => {
+    props.history.push(`/articles/${slug}/edit`)
   }
 
   const onChangFavoriteArticle = () => {
@@ -55,26 +69,16 @@ const Article = (props) => {
   }
 
   return (
-    article ? <ArticleRender
+    article && <Article
                 article={article}
                 isLoggedIn={isLoggedIn}
-                username={username}
+                username={user.username}
                 onChangFavoriteArticle={onChangFavoriteArticle}
                 confirm={confirm}
-              /> : null
+                cancel={cancel}
+                onClickEdit={onClickEdit}
+              />
   );
 };
 
-const mapStateToProps = (state) => {
-  const { loader } = state.genericReducer;
-  const { article } = state.articlesReducer;
-  const { isLoggedIn, user } = state.userReducer;
-  return {
-    loader,
-    article,
-    isLoggedIn,
-    username: user.username
-  };
-}
-
-export default connect(mapStateToProps)(withRouter(Article));
+export default withRouter(ArticleLayout);

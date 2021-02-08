@@ -1,4 +1,4 @@
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,13 +10,12 @@ import { getMyselfArticles } from '../../actions';
 
 import './MyArticles.css';
 
-const MyArticles = (props) => {
+const MyArticles = () => {
   const dispatch = useDispatch();
-  const { loader, articles } = props;
+  const { loader } = useSelector((state) => state.genericReducer);
+  const { articles } = useSelector((state) => state.articlesReducer);
+  
   const author = localStorage.getItem('localUser');
-
-  console.log(author);
-  console.log(articles);
 
   useEffect(() => {
     dispatch(getMyselfArticles(author, ));
@@ -33,25 +32,14 @@ const MyArticles = (props) => {
 
   return (
     <div>
-      <div>
-        { loader ? <Spiner /> : articles.map((article) => <ArticlePreview key={article.slug} article={article} />) }
-      </div>
+      { loader ? <Spiner /> : articles.map((article) => <ArticlePreview key={article.slug} article={article} />) }
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  const { loader } = state.genericReducer;
-  const { articles } = state.articlesReducer;
-  return {
-    loader,
-    articles,
-  };
-}
-
 MyArticles.propTypes = {
-  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
-  loader: PropTypes.bool.isRequired,
+  articles: PropTypes.arrayOf(PropTypes.object),
+  loader: PropTypes.bool,
 }
 
-export default connect(mapStateToProps)(MyArticles);
+export default MyArticles;

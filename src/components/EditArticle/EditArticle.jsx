@@ -13,10 +13,12 @@ import './EditArticle.css';
 const EditArticle = (props) => {
 
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(getSingleArticle(props.slug));
     // eslint-disable-next-line
   }, []);
+  
   const { article } = useSelector((state) => state.articlesReducer);
 
   return (

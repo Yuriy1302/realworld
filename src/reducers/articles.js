@@ -7,19 +7,18 @@ import {
 
   ADD_FAVORITE_ARTICLE_REQUEST,
   ADD_FAVORITE_ARTICLE_SUCCESS,
-  // ADD_FAVORITE_ARTICLE_FAILURE,
 
   UNFAVORITE_ARTICLE_REQUEST,
   UNFAVORITE_ARTICLE_SUCCESS,
-  // UNFAVORITE_ARTICLE_FAILURE,
 
-} from '../actions/articles';
+} from '../config/configArticle';
 
 const initialState = {
   articles: [],
   articlesCount: null,
   article: null
 };
+
 
 const articlesReducer = (state = initialState, action) => {
   switch(action.type) {
@@ -52,58 +51,67 @@ const articlesReducer = (state = initialState, action) => {
       };
 
     case ADD_FAVORITE_ARTICLE_REQUEST: {
-      const { articles } = state;
+      const article = state.article;
       const slug = action.payload;
-      const index = articles.findIndex((item) => item.slug === slug);
-      const oldArticle = articles[index];
-      const newArticle = { ...oldArticle, favorited: true, favoritesCount: oldArticle.favoritesCount + 1 };
-      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+      const articles = state.articles.map((article) => (
+        article.slug === slug
+          ? { ...article, favorited: true, favoritesCount: article.favoritesCount + 1 }
+          : article
+        ));
+      
       return {
         ...state,
-        article: newArticle,
-        articles: newArticles
+        articles,
+        article: article && { ...article, favorited: true, favoritesCount: article.favoritesCount + 1 }
       }
     }
       
     case ADD_FAVORITE_ARTICLE_SUCCESS: {
-      const { articles } = state;
-      const { favorited, favoritesCount, slug } = action.payload;
-      const index = articles.findIndex((item) => item.slug === slug);
-      const oldArticle = articles[index];
-      const newArticle = { ...oldArticle, favorited, favoritesCount };
-      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+
+      const {favorited, favoritesCount, slug} = action.payload;
+      const articles = state.articles.map((article) => (
+        article.slug === slug
+          ? { ...article, favorited, favoritesCount }
+          : article
+        ));
+      
       return {
         ...state,
-        article: action.payload,
-        articles: newArticles
+        articles,
+        article: action.payload
       }
     }
 
     case UNFAVORITE_ARTICLE_REQUEST: {
-      const { articles } = state;
+
+      const article = state.article;
       const slug = action.payload;
-      const index = articles.findIndex((item) => item.slug === slug);
-      const oldArticle = articles[index];
-      const newArticle = { ...oldArticle, favorited: false, favoritesCount: oldArticle.favoritesCount - 1 };
-      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+      const articles = state.articles.map((article) => (
+        article.slug === slug
+          ? { ...article, favorited: false, favoritesCount: article.favoritesCount - 1 }
+          : article
+        ));
+      
       return {
         ...state,
-        article: newArticle,
-        articles: newArticles
+        articles,
+        article: article && { ...article, favorited: false, favoritesCount: article.favoritesCount - 1 }
       }
     }
 
     case UNFAVORITE_ARTICLE_SUCCESS: {
-      const { articles } = state;
-      const { favorited, favoritesCount, slug } = action.payload;
-      const index = articles.findIndex((item) => item.slug === slug);
-      const oldArticle = articles[index];
-      const newArticle = { ...oldArticle, favorited, favoritesCount };
-      const newArticles = [...articles.slice(0, index), newArticle, ...articles.slice(index + 1)];
+
+      const {favorited, favoritesCount, slug} = action.payload;
+      const articles = state.articles.map((article) => (
+        article.slug === slug
+          ? { ...article, favorited, favoritesCount }
+          : article
+        ));
+      
       return {
         ...state,
-        article: action.payload,
-        articles: newArticles
+        articles,
+        article: action.payload
       }
     }
 

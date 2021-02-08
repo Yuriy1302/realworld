@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NavbarRending = (props) => {
+const NavbarRender = (props) => {
   return (
     <div className="button-group">
       <button type="button"
@@ -21,4 +21,4 @@ const NavbarRending = (props) => {
   );
 };
 
-export default NavbarRending;
+export default NavbarRender;

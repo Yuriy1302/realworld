@@ -1,24 +1,18 @@
 import React from 'react';
 import { format } from 'date-fns';
-import uniqueid from 'lodash.uniqueid';
 import MarkdownView from 'react-showdown';
-import { Popconfirm, notification } from 'antd';
+import { withRouter } from 'react-router-dom';
+
+import { Popconfirm } from 'antd';
 
 import Like from '../ArticlePreview/Like';
 
-const ArticleRender = (props) => {
-  const { article, isLoggedIn, username, onChangFavoriteArticle, confirm } = props;
+const Article = (props) => {
+  const { article, isLoggedIn, username, onChangFavoriteArticle, confirm, cancel, onClickEdit } = props;
   const { slug, title, description,
           body, createdAt, favorited,
           favoritesCount, tagList, author } = article;
   const token = localStorage.getItem('token');
-
-  const cancel = () => {
-      notification.info({
-        message: "Canceled",
-        duration: 2
-      });
-  }
 
   return (
     <div className="article">
@@ -32,7 +26,7 @@ const ArticleRender = (props) => {
           </div>
           <div className="article-item__tags">
             { tagList.length !== 0
-                ? tagList.map((tag) => <span className="tag" key={uniqueid()}>{tag}</span>)
+                ? tagList.map((tag) => <span className="tag" key={tag}>{tag}</span>)
                 : null
             }            
           </div>
@@ -63,7 +57,7 @@ const ArticleRender = (props) => {
                   >
                     <button type="button" className="btn-del-myself">Delete</button>
                   </Popconfirm>
-                  <button type="button" onClick={() => { props.history.push(`/articles/${slug}/edit`)}} className="btn-edit-myself">Edit</button>
+                  <button type="button" onClick={() => onClickEdit(slug)} className="btn-edit-myself">Edit</button>
                 </div>
               : null
           }
@@ -76,4 +70,4 @@ const ArticleRender = (props) => {
   );
 };
 
-export default ArticleRender;
+export default withRouter(Article);

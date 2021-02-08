@@ -4,8 +4,6 @@ import { useForm } from 'react-hook-form';
 import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 
-import uniqueId from 'lodash.uniqueid';
-
 import { createArticle, getArticlesList } from '../../actions';
 
 import './CreateArticle.css';
@@ -136,12 +134,11 @@ const CreateArticle = (props) => {
             <fieldset>
             {
             !tagsList.length ? null : <div>{tagsList.map(item => (
-              <span className={item !== tag ? "tag" : tagClass} key={uniqueId()} onClick={deleteTag}>{item}</span>
+              <span className={item !== tag ? "tag" : tagClass} key={tag} onClick={deleteTag}>{item}</span>
             ))}</div>
           }
             <input type="text"
-                    className="input m-right"
-                    style={{ width: '300px' }}
+                    className="input m-right w-300"
                     placeholder="Tag"
                     value={tag}
                     id="tag"

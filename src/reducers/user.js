@@ -5,7 +5,7 @@ import {
   AUTHENTICATION_SUCCESS,
   RESTART_USER_SUCCESS,
   GET_CURRENT_USER_SUCCESS,
-} from '../actions/user';
+} from '../config/configUser';
 
 const initialState = {
   isLoggedIn: false,

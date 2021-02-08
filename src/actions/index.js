@@ -10,8 +10,9 @@ import {
 } from './articles';
 
 import {
-  loginAction,
-  logoutAction,
+/*   loginAction,
+  logoutAction, */
+  logout,
   registration,
   authentication,
   restartUser,
@@ -34,8 +35,9 @@ export {
   setFavoriteArticle,
   deleteFavoriteArticle,
   
-  loginAction,
-  logoutAction,
+/*   loginAction,
+  logoutAction, */
+  logout,
   registration,
   authentication,
   restartUser,

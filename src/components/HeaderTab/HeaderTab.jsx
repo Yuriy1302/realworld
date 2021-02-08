@@ -3,22 +3,24 @@ import React, { useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import NavbarRending from './NavbarRending';
-import UserProfile from './UserProfile';
+import NavbarRender from '../NavbarRender';
+import UserProfile from '../UserProfile';
 
-import { logoutAction, restartUser } from '../../actions';
+import { logout, restartUser } from '../../actions';
+
+import { removeLocal, getLocal } from '../../service/localService';
 
 import './HeaderTab.css';
 
 const HeaderTab = (props) => {
-  const hasUser = localStorage.getItem('localUser');
+
+  const { localUser, token } = getLocal();
 
   const dispatch = useDispatch();
   const content = useSelector((state) => state.userReducer);
-  const token = localStorage.getItem('token');
-
+  
   const updateHeader = () => {
-    if (hasUser) {
+    if (localUser) {
       dispatch(restartUser(token));
     }
   }
@@ -33,9 +35,8 @@ const HeaderTab = (props) => {
   const user = isLoggedIn ? content.user : null;
 
   const handleLogOut = () => {
-    dispatch(logoutAction());
-    localStorage.removeItem('localUser');
-    localStorage.removeItem('token');
+    dispatch(logout());
+    removeLocal();
     // eslint-disable-next-line
     props.history.push('/sign-in');
   }
@@ -67,7 +68,7 @@ const HeaderTab = (props) => {
                           handleLogOut={handleLogOut}
                           handleCreateArticle={handleCreateArticle}
                           loadMyArticles={loadMyArticles} />
-          : <NavbarRending {...props} />
+          : <NavbarRender {...props} />
       }
     </header>
   );

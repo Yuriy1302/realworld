@@ -7,15 +7,17 @@ import ArticlePreview from '../ArticlePreview';
 
 import { getArticlesList, togglePage } from '../../actions';
 
+import { getLocal } from '../../service/localService';
+
 import './ArticlesList.css';
 
 const ArticlesList = (props) => {
-  const token = localStorage.getItem('token');
+
+  const {token} = getLocal();
   const { getArticlesList, togglePage,
           loader, articles, pageCurrent, articlesCount } = props;
   
   const handlePage = (page) => {
-    console.log(page, ' - ', pageCurrent);
     togglePage(page);
     token ? getArticlesList(page * 20 - 20, token) : getArticlesList(page * 20 - 20, null);
   };

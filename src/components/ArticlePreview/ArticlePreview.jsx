@@ -24,7 +24,7 @@ const ArticlePreview = (props) => {
   if (author === undefined) {
     return <ErrorIndicator />
   }
-  
+
   const { username, image } = author;
   
   const onChangFavoriteArticle = () => {

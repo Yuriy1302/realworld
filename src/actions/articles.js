@@ -1,34 +1,34 @@
-export const GET_ARTICLES_REQUEST = 'GET_ARTICLES_REQUEST';
-export const GET_ARTICLES_SUCCESS = 'GET_ARTICLES_SUCCESS';
-export const GET_ARTICLES_FAILURE = 'GET_ARTICLES_FAILURE';
+import {
+  getArticlesRequestAction,
+  getArticlesSuccessAction,
+  getArticlesFailureAction,
 
-export const GET_SINGLE_ARTICLE_REQUEST = 'GET_SINGLE_ARTICLE_REQUEST';
-export const GET_SINGLE_ARTICLE_SUCCESS = 'GET_SINGLE_ARTICLE_SUCCESS';
-export const GET_SINGLE_ARTICLE_FAILURE = 'GET_SINGLE_ARTICLE_FAILURE';
+  getSingleArticleRequestAction,
+  getSingleArticleSuccessAction,
+  getSingleArticleFailureAction,
 
-export const CREATE_ARTICLE_REQUEST = 'CREATE_ARTICLE_REQUEST';
-export const CREATE_ARTICLE_FAILURE = 'CREATE_ARTICLE_FAILURE';
+  createArticleRequestAction,
+  createArticleFailureAction,
 
-export const UPDATE_ARTICLE_REQUEST = 'UPDATE_ARTICLE_REQUEST';
-export const UPDATE_ARTICLE_FAILURE = 'UPDATE_ARTICLE_FAILURE';
+  updateArticleRequestAction,
+  updateArticleFailureAction,
 
-export const DELETE_ARTICLE_REQUEST = 'DELETE_ARTICLE_REQUEST';
-export const DELETE_ARTICLE_FAILURE = 'DELETE_ARTICLE_FAILURE';
+  deleteArticleRequestAction,
+  deleteArticleFailureAction,
 
-export const ADD_FAVORITE_ARTICLE_REQUEST = 'ADD_FAVORITE_ARTICLE_REQUEST';
-export const ADD_FAVORITE_ARTICLE_SUCCESS = 'ADD_FAVORITE_ARTICLE_SUCCESS';
-export const ADD_FAVORITE_ARTICLE_FAILURE = 'ADD_FAVORITE_ARTICLE_FAILURE';
+  setFavoriteArticleRequestAction,
+  setFavoriteArticleSuccessAction,
+  setFavoriteArticleFailureAction,
 
-export const UNFAVORITE_ARTICLE_REQUEST = 'UNFAVORITE_ARTICLE_REQUEST';
-export const UNFAVORITE_ARTICLE_SUCCESS = 'UNFAVORITE_ARTICLE_SUCCESS';
-export const UNFAVORITE_ARTICLE_FAILURE = 'UNFAVORITE_ARTICLE_FAILURE';
+  deleteFavoriteArticleRequestAction,
+  deleteFavoriteArticleSuccessAction,
+  deleteFavoriteArticleFailureAction
+} from './articlesCreateAction';
 
 /* Запрос общего списка статей */
 export const getArticlesList = (offset = 0, token) => {
   return async (dispatch) => {
-    dispatch({
-      type: GET_ARTICLES_REQUEST
-    });
+    dispatch(getArticlesRequestAction());
     try {
       const options = token ? {
         method: 'GET',
@@ -46,17 +46,9 @@ export const getArticlesList = (offset = 0, token) => {
       
       const result = await response.json();
       
-      dispatch({
-        type: GET_ARTICLES_SUCCESS,
-        payload: {
-          articles: result.articles,
-          articlesCount: result.articlesCount
-        }
-      });
+      dispatch(getArticlesSuccessAction(result));
     } catch(error) {
-        dispatch({
-          type: GET_ARTICLES_FAILURE
-        });
+        dispatch(getArticlesFailureAction());
         console.error('Возникла ошибки: ', error);
     };
   }
@@ -65,11 +57,7 @@ export const getArticlesList = (offset = 0, token) => {
 /* Запрос списка СВОИХ статей */
 export const getMyselfArticles = (author, offset = 0) => {
   return async (dispatch) => {
-    dispatch({
-      type: GET_ARTICLES_REQUEST
-    });
-
-    console.log('author in action: ', author);
+    dispatch(getArticlesRequestAction());
 
     try {
       const response = await fetch(`https://conduit.productionready.io/api/articles?author=${author}&offset=${offset}`)
@@ -77,24 +65,12 @@ export const getMyselfArticles = (author, offset = 0) => {
       if (response === null) {
         throw console.log('ERROR!!!. ', response);
       }
-
-      console.log('response in action: ', await response);
       
       const result = await response.json();
-
-      console.log('result in action: ', await result);
             
-      dispatch({
-        type: GET_ARTICLES_SUCCESS,
-        payload: {
-          articles: result.articles,
-          articlesCount: result.articlesCount
-        }
-      });
+      dispatch(getArticlesSuccessAction(result));
     } catch(error) {
-        dispatch({
-          type: GET_ARTICLES_FAILURE
-        });
+        dispatch(getArticlesFailureAction());
         console.error('Возникла ошибки: ', error);
     };
   }
@@ -103,9 +79,7 @@ export const getMyselfArticles = (author, offset = 0) => {
 /* Запрос статьи по идентификатору (slug) */
 export const getSingleArticle = (slug, token) => {
   return async (dispatch) => {
-    dispatch({
-      type: GET_SINGLE_ARTICLE_REQUEST
-    });
+    dispatch(getSingleArticleRequestAction());
     try {
       const options = token ? {
         method: 'GET',
@@ -116,14 +90,9 @@ export const getSingleArticle = (slug, token) => {
       } : {};
       const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, options);
       const result = await response.json();
-      dispatch({
-        type: GET_SINGLE_ARTICLE_SUCCESS,
-        payload: result.article,
-      });
+      dispatch(getSingleArticleSuccessAction(result.article));
     } catch(error) {
-        dispatch({
-          type: GET_SINGLE_ARTICLE_FAILURE
-        });
+        dispatch(getSingleArticleFailureAction());
         console.error('Возникла ошибки: ', error);
     };
   }
@@ -132,9 +101,8 @@ export const getSingleArticle = (slug, token) => {
 /* Создание статьи */
 export const createArticle = (newArticle, token) => {
   return async (dispatch) => {
-    dispatch({
-      type: CREATE_ARTICLE_REQUEST // Нет обработки экшена в редьюсере
-    });
+    dispatch(createArticleRequestAction()); // Нет обработки экшена в редьюсере
+
     try {
       const response = await fetch(
         'https://conduit.productionready.io/api/articles',
@@ -160,9 +128,7 @@ export const createArticle = (newArticle, token) => {
       // Какое действие при положительном результате
 
     } catch(error) {
-      dispatch({
-        type: CREATE_ARTICLE_FAILURE
-      });
+      dispatch(createArticleFailureAction());
     }
   }
 };
@@ -170,9 +136,7 @@ export const createArticle = (newArticle, token) => {
 /* Обновить статью */
 export const updateArticle = (token, slug, newData) => {
   return async (dispatch) => {
-    dispatch({
-      type: UPDATE_ARTICLE_REQUEST
-    });
+    dispatch(updateArticleRequestAction());
     try {
   /*     const response = await fetch( */
       await fetch(
@@ -192,9 +156,7 @@ export const updateArticle = (token, slug, newData) => {
       await dispatch(getSingleArticle(slug));
               
     } catch(error) {
-        dispatch({
-          type: UPDATE_ARTICLE_FAILURE
-        });
+        dispatch(updateArticleFailureAction());
         console.error('Возникла ошибка: ', error);
     };
   }
@@ -203,9 +165,7 @@ export const updateArticle = (token, slug, newData) => {
 /* Удаление статьи */
 export const deleteArticle = (slug, token, author) => {
   return async (dispatch) => {
-    dispatch({
-      type: DELETE_ARTICLE_REQUEST
-    });
+    dispatch(deleteArticleRequestAction());
     try {
       await fetch(`https://conduit.productionready.io/api/articles/${slug}`,
         {
@@ -218,9 +178,7 @@ export const deleteArticle = (slug, token, author) => {
       );
       dispatch(getMyselfArticles(author));
     } catch(error) {
-        dispatch({
-          type: DELETE_ARTICLE_FAILURE
-        });
+        dispatch(deleteArticleFailureAction());
         console.error('Возникла ошибки: ', error);
     };
   }
@@ -229,10 +187,7 @@ export const deleteArticle = (slug, token, author) => {
 /* Добавление статьи в избранное */
 export const setFavoriteArticle = (slug, token) => {
   return async (dispatch) => {
-    dispatch({
-      type: ADD_FAVORITE_ARTICLE_REQUEST,
-      payload: slug
-    });
+    dispatch(setFavoriteArticleRequestAction(slug));
     try {
       const response = await fetch(
         `https://conduit.productionready.io/api/articles/${slug}/favorite`,
@@ -245,17 +200,12 @@ export const setFavoriteArticle = (slug, token) => {
         }
       );
       const result = await response.json();
-      dispatch({
-        type: ADD_FAVORITE_ARTICLE_SUCCESS,
-        payload: result.article,
-      });
+      dispatch(setFavoriteArticleSuccessAction(result.article));
 
       // Диспатч на обновление списка статей? - dispatch(getArticlesList(offset));
 
     } catch(error) {
-        dispatch({
-          type: ADD_FAVORITE_ARTICLE_FAILURE // нет редьюсера
-        });
+        dispatch(setFavoriteArticleFailureAction()); // нет редьюсера
         console.error('Возникла ошибка: ', error);
     };
   }
@@ -264,10 +214,7 @@ export const setFavoriteArticle = (slug, token) => {
 /* Удалить статьи из избранного */
 export const deleteFavoriteArticle = (slug, token) => {
   return async (dispatch) => {
-    dispatch({
-      type: UNFAVORITE_ARTICLE_REQUEST,
-      payload: slug
-    });
+    dispatch(deleteFavoriteArticleRequestAction());
     try {
       const response = await fetch(
         `https://conduit.productionready.io/api/articles/${slug}/favorite`,
@@ -280,14 +227,9 @@ export const deleteFavoriteArticle = (slug, token) => {
         }
       );
       const result = await response.json();
-      dispatch({
-        type: UNFAVORITE_ARTICLE_SUCCESS,
-        payload: result.article,
-      });
+      dispatch(deleteFavoriteArticleSuccessAction(result.article));
     } catch(error) {
-        dispatch({
-          type: UNFAVORITE_ARTICLE_FAILURE // нет редьюсера
-        });
+        dispatch(deleteFavoriteArticleFailureAction());
         console.error('Возникла ошибка: ', error);
     };
   }

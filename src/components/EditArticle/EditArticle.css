@@ -54,6 +54,10 @@
   color: #292929;
 }
 
+.w-300 {
+  width: 300px;
+}
+
 .input-bottom {
   margin-bottom: 5px;
 }
@@ -119,4 +123,8 @@
 
 .btn-primary:hover {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.err-text {
+  color: red;
 }

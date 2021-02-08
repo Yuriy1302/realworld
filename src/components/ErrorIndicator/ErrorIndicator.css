@@ -3,6 +3,12 @@
   flex-direction: column;
 }
 
+.text-position {
+  text-align: center;
+}
+
+
+
 .classErrorMessage {
   width: 420px;
   height: auto;
@@ -12,6 +18,11 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.classErrorMessage .card-img-top {
+  width: 50px;
+  margin: 10px auto;
 }
 
 .card-body-title {

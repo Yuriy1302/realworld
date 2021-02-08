@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 import { withRouter } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import uniqueId from 'lodash.uniqueid';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import uniqueId from 'lodash.uniqueid';
 
 import Spiner from '../Spiner';
 
@@ -74,9 +74,7 @@ const EditArticleRenderForm = (props) => {
 
   const deleteTag = (event) => {
     event.preventDefault();
-    const { textContent } = event.target;
-    const index = tagsList.indexOf(textContent);
-    const newTagsList = [ ...tagsList.slice(0, index), ...tagsList.slice(index + 1) ];
+    const newTagsList = tagsList.filter((tag) => tag !== event.target.textContent);
     setTagsList(newTagsList);
   }
 
@@ -126,14 +124,13 @@ const EditArticleRenderForm = (props) => {
           }
             
               <input type="text"
-                    className="input m-right"
-                    style={{ width: '300px' }}
+                    className="input m-right w-300"
+                    
                     placeholder="Tag"
                     value={tag}
                     id="tag"
                     name="tag"
                     onChange={onChangeTag}
-
                     onKeyDown={(event) => {
                         
                         if (event.key === 'Enter') {
@@ -145,8 +142,8 @@ const EditArticleRenderForm = (props) => {
                     }
               />
               <button type="button" onClick={addTag} className="btn-add">Add</button>
-              { includesTagMessage && <div style={{ color: 'red' }}>There is such a tag</div> }
-              { emtyTagMessag && <div style={{ color: 'red' }}>The tag cannot be empty</div>}
+              { includesTagMessage && <div className="err-text">There is such a tag</div> }
+              { emtyTagMessag && <div className="err-text">The tag cannot be empty</div>}
             </fieldset>
 
           <button type="submit" className="btn-primary w300">Send</button>
