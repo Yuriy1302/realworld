@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, /* useSelector */ } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notification } from 'antd';
 
@@ -9,6 +9,7 @@ import { updateUser } from '../../actions';
 const ProfileForm = (props) => {
   const { username, email } = props.user;
   const dispatch = useDispatch();
+  /* const { error } = useSelector((state) => state.genericReducer); */
   const { token } = props;
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
@@ -28,10 +29,18 @@ const ProfileForm = (props) => {
     }
     
     dispatch(updateUser(token, newData));
-    notification.success({
-      message: "Correction of profile saved",
-      duration: 2
-    });
+    /* if (error) { */
+      notification.success({
+        message: "Correction of profile saved",
+        duration: 2
+      });
+    /* } else {
+      notification.error({
+        message: "There is an Error!",
+        duration: 2
+      }); 
+    }*/
+    
   }
 
   return (

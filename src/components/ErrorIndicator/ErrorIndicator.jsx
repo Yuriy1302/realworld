@@ -1,6 +1,7 @@
 import React from 'react';
 
 import attention from '../../images/attention.png';
+import { removeLocalData } from '../../service/local-service';
 
 import './ErrorIndicator.css';
 
@@ -13,6 +14,7 @@ const ErrorIndicator = () => {
           <h2 className="card-body-title">Что-то пошло не так.</h2>
           <p className="card-body-text">Перезапустить страницу?</p>
           <button type='button' onClick={() => window.location.reload()} className='btn-err'>Продолжить</button>
+          <button type='button' onClick={() => removeLocalData()} className='btn-err'>Перезапустить</button>
         </div>
       </div>
       <div className="shadow1" />

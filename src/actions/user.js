@@ -1,3 +1,5 @@
+import { UserService } from '../service/UserService';
+
 import {
   loginAction,
   logoutAction,
@@ -35,7 +37,7 @@ export const registration = (data) => {
   return async (dispatch) => {
     dispatch(registrationRequestAction());
     try {
-      const response = await fetch(
+      /* const response = await fetch(
         'https://conduit.productionready.io/api/users',
         {
           method: 'POST',
@@ -50,19 +52,29 @@ export const registration = (data) => {
             }
           })
         }
-      );
-
-      if (!response.ok && response.status === 422) {
+      ); */
+      
+      const result = await UserService.registration(data);
+      console.log('result in registr: ', result);
+      /* if (!response.ok && response.status === 422) {
         const errorResult = await response.json();
         dispatch(registrationErrorsAction(errorResult.errors));
         return;
+      } */
+      if (result.errors) {
+        return dispatch(registrationErrorsAction(result.errors));
       }
 
-      const result = await response.json();
       dispatch(registrationSuccessAction(result));
       dispatch(loginAction());
       const { username, token } = result.user;
       addLocalData(username, token);
+
+      /* const result = await response.json(); */
+      /* dispatch(registrationSuccessAction(result));
+      dispatch(loginAction());
+      const { username, token } = result.user;
+      addLocalData(username, token); */
     } catch (error) {
       dispatch(registrationFailureAction());
       console.error("Oops in registration! Error: ", error);
@@ -113,17 +125,7 @@ export const restartUser = (token) => {
   return async (dispatch) => {
     dispatch(restartUserRequestAction());
     try {
-      const response = await fetch(
-        'https://conduit.productionready.io/api/user',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': "Token " + token
-          },
-        },
-      );
-      const result = await response.json();
+      const result = await UserService.restartUser(token);
       dispatch(restartUserSuccessAction(result.user));
       dispatch(loginAction());
     } catch(error) {
@@ -138,17 +140,7 @@ export const getCurrentUser = (token) => {
   return async (dispatch) => {
     dispatch(getCurrentUserRequestAction());
     try {
-      const response = await fetch(
-        'https://conduit.productionready.io/api/user',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': "Token " + token
-          },
-        }
-      );
-      const result = await response.json();
+      const result = await UserService.getCurrentUser(token);
       dispatch(getCurrentUserSuccessAction(result.user));
     } catch (error) {
       console.log("Oops! Error: ", error);
@@ -156,25 +148,13 @@ export const getCurrentUser = (token) => {
   }
 };
 
-/* Обновить данные профиля */
+
+/* Обновить данные пользователя */
 export const updateUser = (token, newData) => {
   return async (dispatch) => {
     dispatch(updateUserRequestAction());
     try {
-      const response = await fetch(
-        'https://conduit.productionready.io/api/user',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': "Token " + token
-          },
-          body: JSON.stringify({
-            user: newData
-          })
-        }
-      );
-      const result = await response.json();
+      const result = await UserService.updateUser(token, newData);
       addLocalData(result.user.username, result.user.token);
       dispatch(restartUser(result.user.token));
     } catch(error) {
