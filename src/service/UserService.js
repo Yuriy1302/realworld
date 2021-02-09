@@ -19,6 +19,21 @@ export class UserService {
     return result;
   }
 
+  static async authentication(userRegister) {
+    const result = await ApiService.request(
+      '/users/login',
+      'POST',
+      undefined,
+      {
+        user: {
+          email: userRegister.email,
+          password: userRegister.password
+        }
+      }
+    );
+    return result;
+  }
+
   static async updateUser(token, newData) {
     const result = await ApiService.request(
       '/user',

@@ -31,36 +31,13 @@ import { addLocalData } from '../service/local-service';
 /* Выход из аккаунта */
 export const logout = () => logoutAction();
 
-
 /* Регистрация */
 export const registration = (data) => {
   return async (dispatch) => {
     dispatch(registrationRequestAction());
     try {
-      /* const response = await fetch(
-        'https://conduit.productionready.io/api/users',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({
-            user: {
-              username: data.username,
-              email: data.email,
-              password: data.password
-            }
-          })
-        }
-      ); */
-      
       const result = await UserService.registration(data);
-      console.log('result in registr: ', result);
-      /* if (!response.ok && response.status === 422) {
-        const errorResult = await response.json();
-        dispatch(registrationErrorsAction(errorResult.errors));
-        return;
-      } */
+
       if (result.errors) {
         return dispatch(registrationErrorsAction(result.errors));
       }
@@ -69,15 +46,9 @@ export const registration = (data) => {
       dispatch(loginAction());
       const { username, token } = result.user;
       addLocalData(username, token);
-
-      /* const result = await response.json(); */
-      /* dispatch(registrationSuccessAction(result));
-      dispatch(loginAction());
-      const { username, token } = result.user;
-      addLocalData(username, token); */
-    } catch (error) {
+    } catch (err) {
       dispatch(registrationFailureAction());
-      console.error("Oops in registration! Error: ", error);
+      console.error("Oops! There is an Error in registration: ", err);
     }
   }
 };
@@ -87,35 +58,19 @@ export const authentication = (userRegister) => {
   return async (dispatch) => {
     dispatch(authenticationRequestAction());
     try {
-      const response = await fetch(
-        'https://conduit.productionready.io/api/users/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: JSON.stringify({
-            user: {
-              email: userRegister.email,
-              password: userRegister.password
-            }
-          })
-        }
-      );
-      const result = await response.json();
-
-      if (response.ok) {
-        dispatch(authenticationSuccessAction(result));
-        dispatch(loginAction());
-        const { username, token } = result.user;
-        addLocalData(username, token);
-      } else  {
-        dispatch(authenticationSuccessErrorAction(result));
-        return null;
+      const result = await UserService.authentication(userRegister);
+      
+      if (result.errors) {
+        return dispatch(authenticationSuccessErrorAction(result));
       }
-    } catch(error) {
-        dispatch(authenticationFailureAction());
-        console.error('Возникла ошибка: ', error);
+
+      dispatch(authenticationSuccessAction(result));
+      const { username, token } = result.user;
+      addLocalData(username, token);
+      dispatch(loginAction());
+    } catch(err) {
+      dispatch(authenticationFailureAction());
+      console.error('Возникла ошибка: ', err);
     };
   }
 };
@@ -128,9 +83,9 @@ export const restartUser = (token) => {
       const result = await UserService.restartUser(token);
       dispatch(restartUserSuccessAction(result.user));
       dispatch(loginAction());
-    } catch(error) {
+    } catch(err) {
         dispatch(restartUserFailureAction());
-        console.error('Возникла ошибка: ', error);
+        console.error('Возникла ошибка: ', err);
     };
   }
 };
@@ -142,12 +97,11 @@ export const getCurrentUser = (token) => {
     try {
       const result = await UserService.getCurrentUser(token);
       dispatch(getCurrentUserSuccessAction(result.user));
-    } catch (error) {
-      console.log("Oops! Error: ", error);
+    } catch (err) {
+      console.log("Oops! Error: ", err);
     }
   }
 };
-
 
 /* Обновить данные пользователя */
 export const updateUser = (token, newData) => {
@@ -157,9 +111,9 @@ export const updateUser = (token, newData) => {
       const result = await UserService.updateUser(token, newData);
       addLocalData(result.user.username, result.user.token);
       dispatch(restartUser(result.user.token));
-    } catch(error) {
+    } catch(err) {
         dispatch(updateUserFailureAction());
-        console.error('Возникла ошибка: ', error);
+        console.error('Возникла ошибка: ', err);
     };
   }
 };

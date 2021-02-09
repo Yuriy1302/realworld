@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import ErrorIndicator from '../ErrorIndicator';
-import HeaderTab from '../HeaderTab';
-import Routes from '../Routes';
+import ErrorIndicator from "../ErrorIndicator";
+import HeaderTab from "../HeaderTab";
+import Routes from "../Routes";
 
-import './App.css';
+import "./App.css";
 
 const App = (props) => {
   const { error } = props;
-    
+
   if (error) {
-      return <ErrorIndicator />
+    return <ErrorIndicator />;
   }
 
   return (
-    <div>    
+    <div>
       <Router>
         <HeaderTab />
         <main className="main">
@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
 };
 
 App.propTypes = {
-  error: PropTypes.bool.isRequired
+  error: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps)(App);

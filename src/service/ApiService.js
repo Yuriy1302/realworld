@@ -16,8 +16,9 @@ export class ApiService {
 
       if (!response.ok && response.status === 422) {
         const errorResult = await response.json();
-        /* throw new Error('Что-то пошло не так!'); */
         return errorResult;
+      } else if (!response.ok && response.status !== 422) {
+        throw new Error('Что-то пошло не так (in request)!');
       }
 
       const result = await response.json();

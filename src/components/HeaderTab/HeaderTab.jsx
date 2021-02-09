@@ -1,29 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { Link, withRouter } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link, withRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import NavbarRender from '../NavbarRender';
-import UserProfile from '../UserProfile';
+import NavbarRender from "../NavbarRender";
+import UserProfile from "../UserProfile";
 
-import { logout, restartUser } from '../../actions';
+import { logout, restartUser } from "../../actions";
 
-import { removeLocalData, getLocalData } from '../../service/local-service';
+import { removeLocalData, getLocalData } from "../../service/local-service";
 
-import './HeaderTab.css';
+import "./HeaderTab.css";
 
 const HeaderTab = (props) => {
-
   const { localUser, token } = getLocalData();
 
   const dispatch = useDispatch();
   const content = useSelector((state) => state.userReducer);
-  
+
   const updateHeader = () => {
     if (localUser) {
       dispatch(restartUser(token));
     }
-  }
+  };
 
   useEffect(() => {
     updateHeader();
@@ -31,49 +30,51 @@ const HeaderTab = (props) => {
   }, []);
 
   const { isLoggedIn } = content;
-    
+
   const user = isLoggedIn ? content.user : null;
 
   const handleLogOut = () => {
     dispatch(logout());
     removeLocalData();
     // eslint-disable-next-line
-    props.history.push('/sign-in');
-  }
+    props.history.push("/sign-in");
+  };
 
   const handleCreateArticle = () => {
     if (isLoggedIn) {
       // eslint-disable-next-line
-      props.history.push('/new-article');
+      props.history.push("/new-article");
     }
     return null;
-  }
+  };
 
   const loadMyArticles = () => {
     if (isLoggedIn) {
       // eslint-disable-next-line
-      props.history.push('/my-articles');
+      props.history.push("/my-articles");
     }
     return null;
-  }
-  
+  };
+
   return (
     <header className="header">
       <h3 className="header__title">
-        <Link to="/" className="home-link">Realworld Blog</Link>
+        <Link to="/" className="home-link">
+          Realworld Blog
+        </Link>
       </h3>
-      {
-        user
-          ? <UserProfile user={user}
-                          handleLogOut={handleLogOut}
-                          handleCreateArticle={handleCreateArticle}
-                          loadMyArticles={loadMyArticles} />
-          : <NavbarRender {...props} />
-      }
+      {user ? (
+        <UserProfile
+          user={user}
+          handleLogOut={handleLogOut}
+          handleCreateArticle={handleCreateArticle}
+          loadMyArticles={loadMyArticles}
+        />
+      ) : (
+        <NavbarRender {...props} />
+      )}
     </header>
   );
 };
-
-
 
 export default withRouter(HeaderTab);
