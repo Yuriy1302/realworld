@@ -7,13 +7,13 @@ import ArticlePreview from '../ArticlePreview';
 
 import { getArticlesList, togglePage } from '../../actions';
 
-import { getLocal } from '../../service/localService';
+import { getLocalData } from '../../service/local-service';
 
 import './ArticlesList.css';
 
 const ArticlesList = (props) => {
 
-  const {token} = getLocal();
+  const token = getLocalData('token');
   const { getArticlesList, togglePage,
           loader, articles, pageCurrent, articlesCount } = props;
   

@@ -7,6 +7,8 @@ import ErrorIndicator from '../ErrorIndicator';
 import HeaderTab from '../HeaderTab';
 import Routes from '../Routes';
 
+import './App.css';
+
 const App = (props) => {
   const { error } = props;
     

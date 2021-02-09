@@ -2,11 +2,13 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { getLocalData } from '../../service/local-service';
+
 const PrivateRoute = (props) => {
   const { component: Component, ...rest } = props;
   return <Route
     {...rest}
-    render={(properties) => localStorage.getItem('token')
+    render={(properties) => getLocalData('token')
       ? <Component {...properties} />
       : <Redirect
           to={{

@@ -24,7 +24,7 @@ import {
 
 } from './userCreateActions';
 
-import { addLocal } from '../service/localService';
+import { addLocalData } from '../service/local-service';
 
 /* Выход из аккаунта */
 export const logout = () => logoutAction();
@@ -62,7 +62,7 @@ export const registration = (data) => {
       dispatch(registrationSuccessAction(result));
       dispatch(loginAction());
       const { username, token } = result.user;
-      addLocal(username, token);
+      addLocalData(username, token);
     } catch (error) {
       dispatch(registrationFailureAction());
       console.error("Oops in registration! Error: ", error);
@@ -96,7 +96,7 @@ export const authentication = (userRegister) => {
         dispatch(authenticationSuccessAction(result));
         dispatch(loginAction());
         const { username, token } = result.user;
-        addLocal(username, token);
+        addLocalData(username, token);
       } else  {
         dispatch(authenticationSuccessErrorAction(result));
         return null;
@@ -175,7 +175,7 @@ export const updateUser = (token, newData) => {
         }
       );
       const result = await response.json();
-      addLocal(result.user.username, result.user.token);
+      addLocalData(result.user.username, result.user.token);
       dispatch(restartUser(result.user.token));
     } catch(error) {
         dispatch(updateUserFailureAction());

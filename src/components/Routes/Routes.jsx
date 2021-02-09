@@ -12,11 +12,13 @@ import PrivateRoute from '../PrivateRoute';
 import SignIn from '../SignIn';
 import SignUp from '../SignUp';
 
+import { getLocalData } from '../../service/local-service';
+
 
 const Routes = () => {
   const {article} = useSelector((state) => state.articlesReducer);
   const authorOfArticle = article?.author.username;
-  const user = localStorage.getItem('localUser');
+  const localUser = getLocalData('localUser');
   
   return (
     <Switch>
@@ -36,7 +38,7 @@ const Routes = () => {
         path="/articles/:slug/edit"
         render={({ match }) => {
           const { slug } = match.params;
-          return authorOfArticle === user ? <EditArticle slug={slug} /> : <Redirect to={`/articles/${slug}`} />
+          return authorOfArticle === localUser ? <EditArticle slug={slug} /> : <Redirect to={`/articles/${slug}`} />
         }}
       />
       <PrivateRoute path="/new-article" exact component={CreateArticle} />

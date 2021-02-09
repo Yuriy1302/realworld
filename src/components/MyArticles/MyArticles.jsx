@@ -8,6 +8,8 @@ import { Empty } from 'antd';
 
 import { getMyselfArticles } from '../../actions';
 
+import { getLocalData } from '../../service/local-service';
+
 import './MyArticles.css';
 
 const MyArticles = () => {
@@ -15,10 +17,10 @@ const MyArticles = () => {
   const { loader } = useSelector((state) => state.genericReducer);
   const { articles } = useSelector((state) => state.articlesReducer);
   
-  const author = localStorage.getItem('localUser');
+  const localUser = getLocalData('localUser');
 
   useEffect(() => {
-    dispatch(getMyselfArticles(author, ));
+    dispatch(getMyselfArticles(localUser));
     // eslint-disable-next-line
   }, []);
 

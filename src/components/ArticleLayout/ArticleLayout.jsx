@@ -12,6 +12,8 @@ import {
   setFavoriteArticle,
   deleteFavoriteArticle } from '../../actions';
 
+import { getLocalData } from '../../service/local-service';
+
 import './ArticleLayout.css';
 
 
@@ -22,6 +24,8 @@ const ArticleLayout = (props) => {
   const { article } = useSelector((state) => state.articlesReducer);
   const { isLoggedIn, user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+
+  const token = getLocalData('token');
 
   const confirm = (slug, token, username) => {
     notification.success({
@@ -45,19 +49,16 @@ const ArticleLayout = (props) => {
 
   const onChangFavoriteArticle = () => {
     if (isLoggedIn && !article.favorited) {
-      const token = localStorage.getItem('token');
       dispatch(setFavoriteArticle(slug, token));
     }
 
     if (isLoggedIn && article.favorited) {
-      const token = localStorage.getItem('token');
       dispatch(deleteFavoriteArticle(slug, token));
     }
   }
 
   useEffect(() => {
     function fetchData() {
-      const token = localStorage.getItem('token');
       dispatch(getSingleArticle(slug, token));
     }
     fetchData();

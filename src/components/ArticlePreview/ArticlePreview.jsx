@@ -9,10 +9,13 @@ import ErrorIndicator from '../ErrorIndicator';
 
 import { setFavoriteArticle, deleteFavoriteArticle } from '../../actions';
 
+import { getLocalData } from '../../service/local-service';
+
 import './ArticlePreview.css';
 import userImg from '../../images/user.svg';
 
 const ArticlePreview = (props) => {
+  const token = getLocalData('token');
   const { isLoggedIn } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
@@ -29,7 +32,6 @@ const ArticlePreview = (props) => {
   
   const onChangFavoriteArticle = () => {
     if (isLoggedIn && !favorited) {
-      const token = localStorage.getItem('token');
       dispatch(setFavoriteArticle(slug, token));
     } else if (!isLoggedIn && !favorited) {
       notification.warning({
@@ -39,7 +41,6 @@ const ArticlePreview = (props) => {
     }
 
     if (isLoggedIn && favorited) {
-      const token = localStorage.getItem('token');
       dispatch(deleteFavoriteArticle(slug, token));
     }
   }

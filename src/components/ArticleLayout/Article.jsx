@@ -7,12 +7,14 @@ import { Popconfirm } from 'antd';
 
 import Like from '../ArticlePreview/Like';
 
+import { getLocalData } from '../../service/local-service';
+
 const Article = (props) => {
   const { article, isLoggedIn, username, onChangFavoriteArticle, confirm, cancel, onClickEdit } = props;
   const { slug, title, description,
           body, createdAt, favorited,
           favoritesCount, tagList, author } = article;
-  const token = localStorage.getItem('token');
+  const token = getLocalData('token');
 
   return (
     <div className="article">

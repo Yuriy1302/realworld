@@ -6,10 +6,12 @@ import classNames from 'classnames';
 
 import { createArticle, getArticlesList } from '../../actions';
 
+import { getLocalData } from '../../service/local-service';
+
 import './CreateArticle.css';
 
 const CreateArticle = (props) => {
-  const token = localStorage.getItem('token');
+  const token = getLocalData('token');
   const [ title, setTitle ] = useState('');
   const [ description, setDescription ] = useState('');
   const [ body, setBody ] = useState('');
@@ -163,7 +165,6 @@ const CreateArticle = (props) => {
           <button type="submit" className="btn-primary w300">Send</button>        
         </form>
       </div>
-      <div className="p-top"></div>
     </div>
   );
 };

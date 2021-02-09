@@ -8,13 +8,13 @@ import UserProfile from '../UserProfile';
 
 import { logout, restartUser } from '../../actions';
 
-import { removeLocal, getLocal } from '../../service/localService';
+import { removeLocalData, getLocalData } from '../../service/local-service';
 
 import './HeaderTab.css';
 
 const HeaderTab = (props) => {
 
-  const { localUser, token } = getLocal();
+  const { localUser, token } = getLocalData();
 
   const dispatch = useDispatch();
   const content = useSelector((state) => state.userReducer);
@@ -36,7 +36,7 @@ const HeaderTab = (props) => {
 
   const handleLogOut = () => {
     dispatch(logout());
-    removeLocal();
+    removeLocalData();
     // eslint-disable-next-line
     props.history.push('/sign-in');
   }

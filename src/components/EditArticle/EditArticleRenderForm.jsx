@@ -10,10 +10,12 @@ import Spiner from '../Spiner';
 
 import { updateArticle } from '../../actions';
 
+import { getLocalData } from '../../service/local-service';
+
 import './EditArticle.css';
 
 const EditArticleRenderForm = (props) => {
-  const token = localStorage.getItem('token');
+  const token = getLocalData('token');
   const { article } = props;
   
   const [ tag, setTag ] = useState('');

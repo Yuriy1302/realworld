@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import ProfileForm from './ProfileForm'
 import Spiner from '../Spiner';
 
+import { getLocalData } from '../../service/local-service';
+
 import './EditProfile.css';
 
 const EditProfile = (props) => {
-  const token = localStorage.getItem('token');
+  const token = getLocalData('token');
   const { user, isLoggedIn } = props;
     
   return isLoggedIn
