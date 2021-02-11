@@ -3,12 +3,14 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { withRouter } from "react-router-dom";
 import classNames from "classnames";
+import uniqueId from "lodash.uniqueid";
 
 import { createArticle, getArticlesList } from "../../actions";
 
 import { getLocalData } from "../../service/local-service";
 
 import "./CreateArticle.css";
+
 
 const CreateArticle = (props) => {
   const token = getLocalData("token");
@@ -162,7 +164,7 @@ const CreateArticle = (props) => {
                 {tagsList.map((item) => (
                   <span
                     className={item !== tag ? "tag" : tagClass}
-                    key={tag}
+                    key={uniqueId()}
                     onClick={deleteTag}
                   >
                     {item}

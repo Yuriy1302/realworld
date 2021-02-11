@@ -60,7 +60,6 @@ export class UserService {
       'GET',
       { Authorization: `Token ${token}`}
     );
-    console.log('result restartUser: ', result);
     return result;
   }
 

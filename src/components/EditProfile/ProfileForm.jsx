@@ -122,8 +122,8 @@ const ProfileForm = (props) => {
           name="image"
           className="input"
           placeholder="Avatar image"
-          // eslint-disable-next-line
-          ref={register({
+          
+          ref={register({ // eslint-disable-next-line
             pattern: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
           })}
         />

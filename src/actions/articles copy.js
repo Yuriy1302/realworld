@@ -1,5 +1,3 @@
-import { ArticleService } from '../service/ArticleService';
-
 import {
   getArticlesRequestAction,
   getArticlesSuccessAction,
@@ -32,7 +30,22 @@ export const getArticlesList = (offset = 0, token) => {
   return async (dispatch) => {
     dispatch(getArticlesRequestAction());
     try {
-      const result = await ArticleService.getArticlesList(offset, token);
+      const options = token ? {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': "Token " + token
+        }
+      } : {};
+
+      const response = await fetch(`https://conduit.productionready.io/api/articles?offset=${offset}`, options);
+      
+      if (response === null) {
+        throw console.log('ERROR!!!. ', response);
+      }
+      
+      const result = await response.json();
+      
       dispatch(getArticlesSuccessAction(result));
     } catch(error) {
         dispatch(getArticlesFailureAction());
@@ -45,8 +58,16 @@ export const getArticlesList = (offset = 0, token) => {
 export const getMyselfArticles = (author, offset = 0) => {
   return async (dispatch) => {
     dispatch(getArticlesRequestAction());
+
     try {
-      const result = await ArticleService.getMyselfArticles(author, offset);
+      const response = await fetch(`https://conduit.productionready.io/api/articles?author=${author}&offset=${offset}`)
+      
+      if (response === null) {
+        throw console.log('ERROR!!!. ', response);
+      }
+      
+      const result = await response.json();
+            
       dispatch(getArticlesSuccessAction(result));
     } catch(error) {
         dispatch(getArticlesFailureAction());
@@ -60,8 +81,16 @@ export const getSingleArticle = (slug, token) => {
   return async (dispatch) => {
     dispatch(getSingleArticleRequestAction());
     try {
-      const article = await ArticleService.getSingleArticle(slug, token);
-      dispatch(getSingleArticleSuccessAction(article));
+      const options = token ? {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': "Token " + token
+        }
+      } : {};
+      const response = await fetch(`https://conduit.productionready.io/api/articles/${slug}`, options);
+      const result = await response.json();
+      dispatch(getSingleArticleSuccessAction(result.article));
     } catch(error) {
         dispatch(getSingleArticleFailureAction());
         console.error('Возникла ошибки: ', error);
@@ -73,13 +102,31 @@ export const getSingleArticle = (slug, token) => {
 export const createArticle = (newArticle, token) => {
   return async (dispatch) => {
     dispatch(createArticleRequestAction()); // Нет обработки экшена в редьюсере
-    try {
-      const result = await ArticleService.createArticle(newArticle, token);
 
-      if (result.errors) {
-        throw console.log("Oops! ", result.errors);
-      }
-      // Какое действие при положительном результате ???
+    try {
+      const response = await fetch(
+        'https://conduit.productionready.io/api/articles',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Authorization': "Token " + token
+          },
+          body: JSON.stringify({
+            article: {
+              title: newArticle.title,
+              description: newArticle.description,
+              body: newArticle.body,
+              tagList: newArticle.tagsList,              
+            }
+          })
+        }
+      );
+      
+      if (response === null) throw console.log("Oops! ", response.json())
+       
+      // Какое действие при положительном результате
+
     } catch(error) {
       dispatch(createArticleFailureAction());
     }
